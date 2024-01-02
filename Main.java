@@ -11,7 +11,9 @@ public class Main {
 
         window.pack(); // al pakkes ind så det passer
 
-        window.setLocationRelativeTo(null); // vinduet starter i midten af skærmen
+        window.setLocationRelativeTo(null); // vinduet starter i midten af skærmen½
         window.setVisible(true);
+
+        gamePanel.startGameThread(); // spillets tid startes
     }
 }
