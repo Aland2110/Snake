@@ -14,6 +14,6 @@ public class Main {
         window.setLocationRelativeTo(null); // vinduet starter i midten af skærmen½
         window.setVisible(true);
 
-        gamePanel.startGameThread(); // spillets tid startes
+        gamePanel.startGame(); // spillets tid startes
     }
 }
