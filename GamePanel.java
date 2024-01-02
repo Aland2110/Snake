@@ -3,7 +3,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.Random;
-
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -18,10 +17,11 @@ public class GamePanel extends JPanel implements Runnable {
     static final int[] x = new int[(SCREENWIDTH * SCREENHEIGHT) / TILESIZE]; // slangens x-koordinater
     static final int[] y = new int[(SCREENWIDTH * SCREENHEIGHT) / TILESIZE]; // slangens y-koordinater
 
-    final int FPS = 60;
+    final int FPS = 15;
 
     int appleX;
     int appleY;
+    int bodyParts = 5;
 
     Random random;
 
@@ -70,7 +70,20 @@ public class GamePanel extends JPanel implements Runnable {
 
     // registrerer spillerens bevægelse
     public void update() {
-    
+        for (int i = bodyParts; i > 0; i--) {
+            x[i] = x[i - 1];
+            y[i] = y[i - 1];
+        }
+
+        if (keyH.getUp()) {
+            y[0] -= TILESIZE;
+        } else if (keyH.getDown()) {
+            y[0] += TILESIZE;
+        } else if (keyH.getLeft()) {
+            x[0] -= TILESIZE;
+        } else if (keyH.getRight()) {
+            x[0] += TILESIZE;
+        }
     }
 
     // paintComponent er en indbygget metode i JPanel
@@ -88,9 +101,20 @@ public class GamePanel extends JPanel implements Runnable {
             g2.drawLine(0, i * TILESIZE, SCREENWIDTH, i * TILESIZE);
         }
         
-        // Æble tegnes
+        // æble tegnes
         g2.setColor(Color.RED);
         g2.fillOval(appleX, appleY, TILESIZE, TILESIZE);
+
+        // slange tegnes
+        for (int i = 0; i < bodyParts; i++) {
+            if (i == 0) {
+                g2.setColor(Color.PINK);
+                g2.fillRect(x[i], y[i], TILESIZE, TILESIZE);
+            } else {
+                g2.setColor(Color.GREEN);
+                g2.fillRect(x[i], y[i], TILESIZE, TILESIZE);
+            }
+        }
     }
     
     public void createApple() {
