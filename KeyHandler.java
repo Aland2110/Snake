@@ -2,7 +2,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    private boolean leftPressed, rightPressed, upPressed, downPressed;
+    private char direction = 'D';
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -16,16 +16,24 @@ public class KeyHandler implements KeyListener {
 
         switch (code) {
             case KeyEvent.VK_W:
-                upPressed = true;
+                if (direction != 'S') {
+                    direction = 'W';
+                }
                 break;
             case KeyEvent.VK_A:
-                leftPressed = true;
+                if (direction != 'D') {
+                    direction = 'A';
+                }
                 break;
             case KeyEvent.VK_S:
-                downPressed = true;
+                if (direction != 'W') {
+                    direction = 'S';
+                }
                 break;
             case KeyEvent.VK_D:
-                rightPressed = true;
+                if (direction != 'A') {
+                    direction = 'D';
+                }
                 break;
         }
     }
@@ -33,37 +41,11 @@ public class KeyHandler implements KeyListener {
     // registrerer når knappen slippes
     @Override
     public void keyReleased(KeyEvent e) {
-        int code = e.getKeyCode();
 
-        switch (code) {
-            case KeyEvent.VK_W:
-                upPressed = false;
-                break;
-            case KeyEvent.VK_A:
-                leftPressed = false;
-                break;
-            case KeyEvent.VK_S:
-                downPressed = false;
-                break;
-            case KeyEvent.VK_D:
-                rightPressed = false;
-                break;
-        }
     }
 
-    public boolean getLeft() {
-        return leftPressed;
+    public char getDir() {
+        return direction;
     }
 
-    public boolean getRight() {
-        return rightPressed;
-    }
-
-    public boolean getUp() {
-        return upPressed;
-    }
-
-    public boolean getDown() {
-        return downPressed;
-    }
 }
