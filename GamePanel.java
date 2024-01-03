@@ -41,8 +41,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
         this.random = new Random();
         for (int i = 0; i < bodyParts; i++) {
-            x[i] = (m/2 - i) * TILESIZE;
-            y[i] = n/2 * TILESIZE;
+            x[i] = (m / 2 - i) * TILESIZE;
+            y[i] = n / 2 * TILESIZE;
         }
     }
 
@@ -108,9 +108,11 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameThread != null) {
             // griddet tegnes
             g2.setColor(Color.WHITE);
-            for (int i = 0; i < SCREENCOL; i++) {
-                g2.drawLine(i * TILESIZE, 0, i * TILESIZE, SCREENHEIGHT);
-                g2.drawLine(0, i * TILESIZE, SCREENWIDTH, i * TILESIZE);
+            for (int i = 0; i < SCREENROW; i++) {
+                for (int j = 0; j < SCREENCOL; j++) {
+                    g2.drawLine(i * TILESIZE, 0, i * TILESIZE, SCREENHEIGHT);
+                    g2.drawLine(0, j * TILESIZE, SCREENWIDTH, j * TILESIZE);
+                }
             }
 
             // æble tegnes
@@ -126,6 +128,11 @@ public class GamePanel extends JPanel implements Runnable {
                     g2.setColor(Color.GREEN);
                     g2.fillRect(x[i], y[i], TILESIZE, TILESIZE);
                 }
+                g2.setColor(Color.RED);
+                g2.setFont(new Font("Ink Free", Font.BOLD, 50));
+                FontMetrics metrics = getFontMetrics(g2.getFont());
+                g2.drawString("Score: " + appleEaten, (SCREENWIDTH - metrics.stringWidth("Score: " + appleEaten)) / 2,
+                        TILESIZE);
             }
         } else {
             gameOver(g2);
