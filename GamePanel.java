@@ -13,11 +13,11 @@ public class GamePanel extends JPanel implements Runnable {
     private int SCREENCOL;
     private int SCREENROW;
     private int TILESIZE = ORIGINALSIZE * SCALE; // 50x50 tiles
-    private int SCREENWIDTH; // 500 pixels
-    private int SCREENHEIGHT; // 500 pixels
+    private int SCREENWIDTH;
+    private int SCREENHEIGHT;
     private int[] x; // slangens x-koordinater
     private int[] y; // slangens y-koordinater
-    private int FPS = 10;
+    private int FPS = 5;
     private int appleX;
     private int appleY;
     private int bodyParts = 2;
@@ -40,13 +40,14 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
         this.random = new Random();
+        // slangen placeres i midten af banen
         for (int i = 0; i < bodyParts; i++) {
             x[i] = (m / 2 - i) * TILESIZE;
             y[i] = n / 2 * TILESIZE;
         }
     }
 
-    // spillets "tid" startes
+    // spillet startes
     public void startGame() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -142,8 +143,19 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Finder random koordinater til æblet
     public void createApple() {
-        appleX = random.nextInt(SCREENCOL) * TILESIZE;
-        appleY = random.nextInt(SCREENROW) * TILESIZE;
+        int tempX = random.nextInt(SCREENCOL) * TILESIZE;
+        int tempY = random.nextInt(SCREENCOL) * TILESIZE;
+
+        // tjekker om koordinaterne til æblet er i slangen
+        for (int i = 0; i < bodyParts; i++) {
+            while (x[i] == tempX && y[i] == tempY) {
+                tempX = random.nextInt(SCREENCOL) * TILESIZE;
+                tempY = random.nextInt(SCREENCOL) * TILESIZE;
+            }
+        }
+
+        appleX = tempX;
+        appleY = tempY;
     }
 
     // Tjekker om hoved er ved æble

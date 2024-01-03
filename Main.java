@@ -9,12 +9,9 @@ public class Main {
         GamePanel gamePanel = new GamePanel(Integer.parseInt(args[0]), Integer.parseInt(args[1])); 
         
         window.add(gamePanel); // gamepanelet bliver tilføjet til vinduet
-
         window.pack(); // al pakkes ind så det passer
-
         window.setLocationRelativeTo(null); // vinduet starter i midten af skærmen½
         window.setVisible(true);
-
         gamePanel.startGame(); // spillets tid startes
     }
 }
