@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements Runnable {
     private int SCREENHEIGHT; // 500 pixels
     private int[] x; // slangens x-koordinater
     private int[] y; // slangens y-koordinater
-    private int FPS = 1;
+    private int FPS = 10;
     private int appleX;
     private int appleY;
     private int bodyParts = 2;
@@ -34,14 +34,16 @@ public class GamePanel extends JPanel implements Runnable {
         this.SCREENHEIGHT = TILESIZE * SCREENROW;
         this.x = new int[(SCREENWIDTH * SCREENHEIGHT) / TILESIZE];
         this.y = new int[(SCREENWIDTH * SCREENHEIGHT) / TILESIZE];
-        this.y[0] = n/2 * TILESIZE;
-        this.x[0] = m/2 * TILESIZE + TILESIZE;
         this.setPreferredSize(new Dimension(n * TILESIZE, m * TILESIZE)); // vinduets størrelse defineres
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
         this.random = new Random();
+        for (int i = 0; i < bodyParts; i++) {
+            x[i] = (m/2 - i) * TILESIZE;
+            y[i] = n/2 * TILESIZE;
+        }
     }
 
     // spillets "tid" startes
