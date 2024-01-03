@@ -6,7 +6,8 @@ public class Main {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // tilføjer funktionen til at kunne lukke vinduet
         window.setResizable(false); // vinduet kan ikke ændres i størrelse
 
-        GamePanel gamePanel = new GamePanel(); 
+        GamePanel gamePanel = new GamePanel(Integer.parseInt(args[0]), Integer.parseInt(args[1])); 
+        
         window.add(gamePanel); // gamepanelet bliver tilføjet til vinduet
 
         window.pack(); // al pakkes ind så det passer

@@ -8,30 +8,35 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
-    static final int ORIGINALSIZE = 25; // 16x16 tiles
-    static final int SCALE = 2;
-
-    static final int TILESIZE = ORIGINALSIZE * SCALE; // 50x50 tiles
-    static final int SCREENCOL = 20;
-    static final int SCREENROW = 20;
-    static final int SCREENWIDTH = TILESIZE * SCREENCOL; // 500 pixels
-    static final int SCREENHEIGHT = TILESIZE * SCREENROW; // 500 pixels
-    static final int[] x = new int[(SCREENWIDTH * SCREENHEIGHT) / TILESIZE]; // slangens x-koordinater
-    static final int[] y = new int[(SCREENWIDTH * SCREENHEIGHT) / TILESIZE]; // slangens y-koordinater
-
-    int FPS = 10;
-    int appleX;
-    int appleY;
-    int bodyParts = 5;
-    int appleEaten = 0;
+    private int ORIGINALSIZE = 25; // 16x16 tiles
+    private int SCALE = 2;
+    private int SCREENCOL;
+    private int SCREENROW;
+    private int TILESIZE = ORIGINALSIZE * SCALE; // 50x50 tiles
+    private int SCREENWIDTH; // 500 pixels
+    private int SCREENHEIGHT; // 500 pixels
+    private int[] x; // slangens x-koordinater
+    private int[] y; // slangens y-koordinater
+    private int FPS = 1;
+    private int appleX;
+    private int appleY;
+    private int bodyParts = 2;
+    private int appleEaten = 0;
 
     Random random;
-
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
 
-    public GamePanel() {
-        this.setPreferredSize(new Dimension(SCREENWIDTH, SCREENHEIGHT)); // vinduets størrelse defineres
+    public GamePanel(int n, int m) {
+        this.SCREENCOL = m < 5 || m > 100 ? 20 : m;
+        this.SCREENROW = n < 5 || n > 100 ? 20 : n;
+        this.SCREENWIDTH = TILESIZE * SCREENCOL;
+        this.SCREENHEIGHT = TILESIZE * SCREENROW;
+        this.x = new int[(SCREENWIDTH * SCREENHEIGHT) / TILESIZE];
+        this.y = new int[(SCREENWIDTH * SCREENHEIGHT) / TILESIZE];
+        this.y[0] = n/2 * TILESIZE;
+        this.x[0] = m/2 * TILESIZE + TILESIZE;
+        this.setPreferredSize(new Dimension(n * TILESIZE, m * TILESIZE)); // vinduets størrelse defineres
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
@@ -126,7 +131,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-    //Finder random koordinater til æblet
+    // Finder random koordinater til æblet
     public void createApple() {
         appleX = random.nextInt(SCREENCOL) * TILESIZE;
         appleY = random.nextInt(SCREENROW) * TILESIZE;
@@ -141,21 +146,26 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    //Tjekker collision med sig selv
+    // Tjekker collision med sig selv
     public void checkCollision() {
         for (int i = 1; i < bodyParts; i++) {
             if (y[0] == y[i] && x[0] == x[i]) {
                 gameThread = null;
             }
         }
+        // Tjekker om slangens hovedet er inden for banen.
+        if (x[0] < 0 || x[0] >= SCREENWIDTH || y[0] < 0 || y[0] >= SCREENHEIGHT) {
+            gameThread = null;
+        }
     }
 
-    //Funktion der tegner game over stats og tekst
+    // Funktion der tegner game over stats og tekst
     public void gameOver(Graphics2D g2) {
         g2.setColor(Color.RED);
-        g2.setFont(new Font("Ink Free",Font.BOLD,75));
+        g2.setFont(new Font("Ink Free", Font.BOLD, 75));
         FontMetrics metrics = getFontMetrics(g2.getFont());
-        g2.drawString("Game Over", (SCREENWIDTH-metrics.stringWidth("Game Over"))/2, SCREENHEIGHT/2);
-        g2.drawString("Point: "+ appleEaten, (SCREENWIDTH-metrics.stringWidth("Point: "+appleEaten))/2, SCREENHEIGHT/4);
+        g2.drawString("Game Over", (SCREENWIDTH - metrics.stringWidth("Game Over")) / 2, SCREENHEIGHT / 2);
+        g2.drawString("Point: " + appleEaten, (SCREENWIDTH - metrics.stringWidth("Point: " + appleEaten)) / 2,
+                SCREENHEIGHT / 4);
     }
 }
