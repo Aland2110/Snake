@@ -17,11 +17,12 @@ public class GamePanel extends JPanel implements Runnable {
     private int SCREENHEIGHT;
     private int[] x; // slangens x-koordinater
     private int[] y; // slangens y-koordinater
-    private int FPS = 1;
+    private int FPS = 5;
     private int appleX;
     private int appleY;
     private int bodyParts = 2;
     private int appleEaten = 0;
+    private char lastDir;
 
     Random random;
     KeyHandler keyH = new KeyHandler();
@@ -63,6 +64,7 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
             update();
             repaint(); // kalder metoden paintComponent
+            System.out.println(lastDir);
 
             // Sleep method
             try {
@@ -80,23 +82,44 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     // registrerer spillerens bevægelse
+    //Optimer senere
     public void update() {
         for (int i = bodyParts; i > 0; i--) {
             x[i] = x[i - 1];
             y[i] = y[i - 1];
         }
-        // Sørger for at kun en retning kan vælges.
-        synchronized (keyH) {
-            if (keyH.getDir() == 'W') {
+        char dir = keyH.getDir();
+        if (dir == 'W') {
+            if(lastDir != 'S') {
+                this.lastDir = dir;
                 y[0] -= TILESIZE;
-            } else if (keyH.getDir() == 'S') {
+            } else {
                 y[0] += TILESIZE;
-            } else if (keyH.getDir() == 'A') {
+            }
+        } else if (dir == 'S' ) {
+            if(lastDir != 'W') {
+                this.lastDir = dir;
+                y[0] += TILESIZE;
+            } else {
+                y[0] -= TILESIZE;
+            }
+        } else if (dir == 'A') {
+            if(lastDir != 'D') {
+                this.lastDir = dir;
                 x[0] -= TILESIZE;
-            } else if (keyH.getDir() == 'D') {
+            } else {
                 x[0] += TILESIZE;
             }
+        } else if (dir == 'D') {
+            if(lastDir != 'A') {
+                this.lastDir = dir;
+                x[0] += TILESIZE;
+            } else {
+                x[0] -= TILESIZE;
+            }
+            
         }
+  
         appleEat();
         checkCollision();
     }
@@ -171,7 +194,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Tjekker collision med sig selv
     public void checkCollision() {
-        for (int i = 1; i < bodyParts; i++) {
+        for (int i = bodyParts; i > 0; i--) {
             if (y[0] == y[i] && x[0] == x[i]) {
                 gameThread = null;
             }
