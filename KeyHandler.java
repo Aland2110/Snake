@@ -2,7 +2,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    private char direction = 'D';
+    private char actualDirection = 'D';
+    private char nextDirection;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -11,30 +12,25 @@ public class KeyHandler implements KeyListener {
 
     // registrerer når en knap trykkes på
     @Override
-    public void keyPressed(KeyEvent e) {
+    public synchronized void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        switch (code) {
-            case KeyEvent.VK_W:
-                if (direction != 'S') {
-                    direction = 'W';
-                }
-                break;
-            case KeyEvent.VK_A:
-                if (direction != 'D') {
-                    direction = 'A';
-                }
-                break;
-            case KeyEvent.VK_S:
-                if (direction != 'W') {
-                    direction = 'S';
-                }
-                break;
-            case KeyEvent.VK_D:
-                if (direction != 'A') {
-                    direction = 'D';
-                }
-                break;
+        if (code == KeyEvent.VK_W) {
+            if (actualDirection != 'S') {
+                nextDirection = 'W';
+            }
+        } else if (code == KeyEvent.VK_S) {
+            if (actualDirection != 'W') {
+                nextDirection = 'S';
+            }
+        } else if (code == KeyEvent.VK_D) {
+            if (actualDirection != 'A') {
+                nextDirection = 'D';
+            }
+        } else if (code == KeyEvent.VK_A) {
+            if (actualDirection != 'D') {
+                nextDirection = 'A';
+            }
         }
     }
 
@@ -45,7 +41,11 @@ public class KeyHandler implements KeyListener {
     }
 
     public char getDir() {
-        return direction;
+        return actualDirection;
+    }
+
+    public void updateDir() {
+        actualDirection = nextDirection;
     }
 
 }

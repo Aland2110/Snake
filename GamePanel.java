@@ -17,7 +17,7 @@ public class GamePanel extends JPanel implements Runnable {
     private int SCREENHEIGHT;
     private int[] x; // slangens x-koordinater
     private int[] y; // slangens y-koordinater
-    private int FPS = 5;
+    private int FPS = 1;
     private int appleX;
     private int appleY;
     private int bodyParts = 2;
@@ -85,17 +85,18 @@ public class GamePanel extends JPanel implements Runnable {
             x[i] = x[i - 1];
             y[i] = y[i - 1];
         }
-
-        if (keyH.getDir() == 'W') {
-            y[0] -= TILESIZE;
-        } else if (keyH.getDir() == 'S') {
-            y[0] += TILESIZE;
-        } else if (keyH.getDir() == 'A') {
-            x[0] -= TILESIZE;
-        } else if (keyH.getDir() == 'D') {
-            x[0] += TILESIZE;
+        // Sørger for at kun en retning kan vælges.
+        synchronized (keyH) {
+            if (keyH.getDir() == 'W') {
+                y[0] -= TILESIZE;
+            } else if (keyH.getDir() == 'S') {
+                y[0] += TILESIZE;
+            } else if (keyH.getDir() == 'A') {
+                x[0] -= TILESIZE;
+            } else if (keyH.getDir() == 'D') {
+                x[0] += TILESIZE;
+            }
         }
-  
         appleEat();
         checkCollision();
     }
