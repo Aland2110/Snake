@@ -64,7 +64,6 @@ public class GamePanel extends JPanel implements Runnable {
         while (gameThread != null) {
             update();
             repaint(); // kalder metoden paintComponent
-            System.out.println(lastDir);
 
             // Sleep method
             try {
@@ -82,7 +81,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     // registrerer spillerens bevægelse
-    //Optimer senere
+    // Optimer senere
     public void update() {
         for (int i = bodyParts; i > 0; i--) {
             x[i] = x[i - 1];
@@ -90,36 +89,36 @@ public class GamePanel extends JPanel implements Runnable {
         }
         char dir = keyH.getDir();
         if (dir == 'W') {
-            if(lastDir != 'S') {
+            if (lastDir != 'S') {
                 this.lastDir = dir;
                 y[0] -= TILESIZE;
             } else {
                 y[0] += TILESIZE;
             }
-        } else if (dir == 'S' ) {
-            if(lastDir != 'W') {
+        } else if (dir == 'S') {
+            if (lastDir != 'W') {
                 this.lastDir = dir;
                 y[0] += TILESIZE;
             } else {
                 y[0] -= TILESIZE;
             }
         } else if (dir == 'A') {
-            if(lastDir != 'D') {
+            if (lastDir != 'D') {
                 this.lastDir = dir;
                 x[0] -= TILESIZE;
             } else {
                 x[0] += TILESIZE;
             }
         } else if (dir == 'D') {
-            if(lastDir != 'A') {
+            if (lastDir != 'A') {
                 this.lastDir = dir;
                 x[0] += TILESIZE;
             } else {
                 x[0] -= TILESIZE;
             }
-            
+
         }
-  
+
         appleEat();
         checkCollision();
     }
@@ -154,12 +153,14 @@ public class GamePanel extends JPanel implements Runnable {
                     g2.setColor(Color.GREEN);
                     g2.fillRect(x[i], y[i], TILESIZE, TILESIZE);
                 }
-                g2.setColor(Color.RED);
-                g2.setFont(new Font("Ink Free", Font.BOLD, 50));
-                FontMetrics metrics = getFontMetrics(g2.getFont());
-                g2.drawString("Score: " + appleEaten, (SCREENWIDTH - metrics.stringWidth("Score: " + appleEaten)) / 2,
-                        TILESIZE);
             }
+
+            // tegner scoren
+            g2.setColor(Color.RED);
+            g2.setFont(new Font("Ink Free", Font.BOLD, 50));
+            FontMetrics metrics = getFontMetrics(g2.getFont());
+            g2.drawString("Score: " + appleEaten, (SCREENWIDTH - metrics.stringWidth("Score: " + appleEaten)) / 2,
+                    TILESIZE);
         } else {
             gameOver(g2);
         }
