@@ -10,7 +10,10 @@ public class MouseHandler implements MouseListener {
         this.x = e.getX();
         this.y = e.getY();
 
-        
+        if (x >= 500 && x <= 750 && y >= 150 && y <= 400) {
+            System.out.println("Test");
+            Main.game(20, 20);
+        }
     }
 
     @Override
