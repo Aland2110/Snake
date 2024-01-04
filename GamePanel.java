@@ -28,8 +28,8 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
 
     public GamePanel(int n, int m) {
-        this.SCREENCOL = m < 5 || m > 100 ? 20 : m;
-        this.SCREENROW = n < 5 || n > 100 ? 20 : n;
+        this.SCREENCOL = n < 5 || n > 100 ? 20 : n;
+        this.SCREENROW = m < 5 || m > 100 ? 20 : m;
         this.SCREENWIDTH = TILESIZE * SCREENCOL;
         this.SCREENHEIGHT = TILESIZE * SCREENROW;
         this.x = new int[(SCREENWIDTH * SCREENHEIGHT) / TILESIZE];
@@ -42,8 +42,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.random = new Random();
         // slangen placeres i midten af banen
         for (int i = 0; i < bodyParts; i++) {
-            x[i] = (m / 2 - i) * TILESIZE;
-            y[i] = n / 2 * TILESIZE;
+            x[i] = (n / 2 - i) * TILESIZE;
+            y[i] = m / 2 * TILESIZE;
         }
     }
 
@@ -95,7 +95,7 @@ public class GamePanel extends JPanel implements Runnable {
         } else if (keyH.getDir() == 'D') {
             x[0] += TILESIZE;
         }
-
+  
         appleEat();
         checkCollision();
     }
@@ -110,10 +110,11 @@ public class GamePanel extends JPanel implements Runnable {
             // griddet tegnes
             g2.setColor(Color.WHITE);
             for (int i = 0; i < SCREENROW; i++) {
-                for (int j = 0; j < SCREENCOL; j++) {
-                    g2.drawLine(i * TILESIZE, 0, i * TILESIZE, SCREENHEIGHT);
-                    g2.drawLine(0, j * TILESIZE, SCREENWIDTH, j * TILESIZE);
-                }
+                g2.drawLine(0, i * TILESIZE, SCREENWIDTH, i * TILESIZE);
+            }
+            for (int j = 0; j < SCREENCOL; j++) {
+                g2.drawLine(j * TILESIZE, 0, j * TILESIZE, SCREENHEIGHT);
+
             }
 
             // æble tegnes
@@ -144,13 +145,13 @@ public class GamePanel extends JPanel implements Runnable {
     // Finder random koordinater til æblet
     public void createApple() {
         int tempX = random.nextInt(SCREENCOL) * TILESIZE;
-        int tempY = random.nextInt(SCREENCOL) * TILESIZE;
+        int tempY = random.nextInt(SCREENROW) * TILESIZE;
 
         // tjekker om koordinaterne til æblet er i slangen
         for (int i = 0; i < bodyParts; i++) {
             while (x[i] == tempX && y[i] == tempY) {
                 tempX = random.nextInt(SCREENCOL) * TILESIZE;
-                tempY = random.nextInt(SCREENCOL) * TILESIZE;
+                tempY = random.nextInt(SCREENROW) * TILESIZE;
             }
         }
 
