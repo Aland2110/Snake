@@ -16,29 +16,20 @@ public class KeyHandler implements KeyListener {
 
         switch (code) {
             case KeyEvent.VK_W:
-                if (direction != 'S') {
-                    direction = 'W';
-                }
+                direction = 'W';
                 break;
             case KeyEvent.VK_A:
-                if (direction != 'D') {
-                    direction = 'A';
-                }
+                direction = 'A';
                 break;
             case KeyEvent.VK_S:
-                if (direction != 'W') {
-                    direction = 'S';
-                }
+                direction = 'S';
                 break;
             case KeyEvent.VK_D:
-                if (direction != 'A') {
-                    direction = 'D';
-                }
+                direction = 'D';
                 break;
         }
     }
 
-    // registrerer når knappen slippes
     @Override
     public void keyReleased(KeyEvent e) {
 

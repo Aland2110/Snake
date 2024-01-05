@@ -10,9 +10,9 @@ public class Main {
         menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         menuWindow.setResizable(false);
         menuWindow.setTitle("Snake game");
-        
+
         MenuPanel menuPanel = new MenuPanel();
-        
+
         menuWindow.add(menuPanel);
         menuWindow.pack();
         menuWindow.setLocationRelativeTo(null);
@@ -24,14 +24,14 @@ public class Main {
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameWindow.setResizable(false);
         gameWindow.setTitle("Snake game");
-        
+
         GamePanel gamePanel = new GamePanel(n, m);
-        
+
         gameWindow.add(gamePanel);
         gameWindow.pack();
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
-        
+
         gamePanel.startGame();
     }
 }

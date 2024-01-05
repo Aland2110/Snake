@@ -19,7 +19,7 @@ public class MenuPanel extends JPanel {
         this.setFocusable(true);
         repaint();
     }
-  
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
