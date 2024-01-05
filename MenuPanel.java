@@ -1,14 +1,16 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import javax.swing.JPanel;
 
 public class MenuPanel extends JPanel {
     private final int SCREENWIDTH = 1280;
-    private final int SCREENHEIGHT = 720;
-
+    private final int SCREENHEIGHT = 720; 
+    
     MouseHandler mouseH = new MouseHandler();
 
     public MenuPanel() {
@@ -18,20 +20,32 @@ public class MenuPanel extends JPanel {
         this.addMouseListener(mouseH);
         this.setFocusable(true);
         repaint();
+        MouseHandler.changeSet(false);
     }
-
+  
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // titel på spil
+        Graphics2D g2 = (Graphics2D) g;
+        
         g.setColor(Color.GREEN);
-        g.setFont(new Font("Algerian", Font.BOLD, 60));
-        FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("Snake Game", (SCREENWIDTH - metrics.stringWidth("Snake Game")) / 2, 100);
+        // titel på spil
+        drawText("Snake game", 60, 100, g);
+
+        //Tegner linje
+        g.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(3));
+        g.drawLine(300, 115, SCREENWIDTH-300, 115);
 
         // start-knap
-        g.setFont(new Font("Algerian", Font.BOLD, 50));
-        metrics = getFontMetrics(g.getFont());
-        g.drawString("Play game", (SCREENWIDTH - metrics.stringWidth("Play game")) / 2, 200);
+        g.setColor(Color.GREEN);
+        drawText("Play game", 50, 175, g);
+
+        drawText("Settings", 50, 275, g);     
+    }
+
+    public void drawText(String text, int size, int y, Graphics g) {
+        g.setFont(new Font("Algerian", Font.BOLD, size));
+        FontMetrics metrics = getFontMetrics(g.getFont());
+        g.drawString(text, (SCREENWIDTH - metrics.stringWidth(text)) / 2, y);
     }
 }
