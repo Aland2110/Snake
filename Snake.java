@@ -43,28 +43,28 @@ public class Snake {
 
     public void getPlayerImage() {
         try {
-            Hoved1 = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 1.png"));
-            Hoved1H = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 1 (H).png"));
-            Hoved1N = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 1 (N).png"));
-            Hoved1V = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 1 (V).png"));
-            Hoved2 = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 2.png"));
-            Hoved2H = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 2 (H).png"));
-            Hoved2N = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 2 (N).png"));
-            Hoved2V = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 2 (V).png"));
-            Hoved3 = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 3.png"));
-            Hoved3H = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 3 (H).png"));
-            Hoved3N = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 3 (N).png"));
-            Hoved3V = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 3 (V).png"));
-            Hoved4 = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 4.png"));
-            Hoved4H = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 4 (H).png"));
-            Hoved4N = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 4 (N).png"));
-            Hoved4V = ImageIO.read(getClass().getResourceAsStream("/Player/Hoved 4 (V).png"));
-            Hale = ImageIO.read(getClass().getResourceAsStream("/Player/Hale.png"));
-            HaleH = ImageIO.read(getClass().getResourceAsStream("/Player/Hale (H).png"));
-            HaleN = ImageIO.read(getClass().getResourceAsStream("/Player/Hale (N).png"));
-            HaleV = ImageIO.read(getClass().getResourceAsStream("/Player/Hale (V).png"));
-            Krop = ImageIO.read(getClass().getResourceAsStream("/Player/Krop.png"));
-            KropH = ImageIO.read(getClass().getResourceAsStream("/Player/Krop (H).png"));
+            Hoved1 = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 1.png"));
+            Hoved1H = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 1 (H).png"));
+            Hoved1N = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 1 (N).png"));
+            Hoved1V = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 1 (V).png"));
+            Hoved2 = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 2.png"));
+            Hoved2H = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 2 (H).png"));
+            Hoved2N = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 2 (N).png"));
+            Hoved2V = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 2 (V).png"));
+            Hoved3 = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 3.png"));
+            Hoved3H = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 3 (H).png"));
+            Hoved3N = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 3 (N).png"));
+            Hoved3V = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 3 (V).png"));
+            Hoved4 = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 4.png"));
+            Hoved4H = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 4 (H).png"));
+            Hoved4N = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 4 (N).png"));
+            Hoved4V = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 4 (V).png"));
+            Hale = ImageIO.read(getClass().getResourceAsStream("/res/Hale.png"));
+            HaleH = ImageIO.read(getClass().getResourceAsStream("/res/Hale (H).png"));
+            HaleN = ImageIO.read(getClass().getResourceAsStream("/res/Hale (N).png"));
+            HaleV = ImageIO.read(getClass().getResourceAsStream("/res/Hale (V).png"));
+            Krop = ImageIO.read(getClass().getResourceAsStream("/res/Krop.png"));
+            KropH = ImageIO.read(getClass().getResourceAsStream("/res/Krop (H).png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

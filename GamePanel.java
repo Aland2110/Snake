@@ -79,7 +79,7 @@ public class GamePanel extends JPanel implements Runnable {
     // i BufferedImage variablerne
     public void getImage() {
         try {
-            Æble = ImageIO.read(getClass().getResourceAsStream("/Player/Æble.png"));
+            Æble = ImageIO.read(getClass().getResourceAsStream("/res/Æble.png"));
 
         } catch (IOException e) {
             e.printStackTrace();
