@@ -1,31 +1,34 @@
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.util.Random;
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
+    // Screen size & resolution
     private int ORIGINALSIZE = 25;
     private int SCALE = 2;
     public int TILESIZE = ORIGINALSIZE * SCALE;
     public int SCREENWIDTH;
     public int SCREENHEIGHT;
-    private int FPS = 5;
-    public int appleX;
-    public int appleY;
-    private BufferedImage Æble;
     public int n;
     public int m;
 
+    // Game running variables
+    private int FPS = 5;
+    private boolean gameRunning;
+
+    // Game State
+    private int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
+
+    // Objects needed
     Random random;
-    KeyHandler keyH = new KeyHandler();
+    KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
-    Snake snake = new Snake(this, keyH);
+    Entity entity = new Entity(this, keyH);
+    UI UI = new UI(this, entity);
 
     public GamePanel(int n, int m) {
         this.n = n < 5 || n > 100 ? 20 : n;
@@ -33,7 +36,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.SCREENWIDTH = TILESIZE * n;
         this.SCREENHEIGHT = TILESIZE * m;
         this.random = new Random();
-        snake.snakePos();
+        entity.snakePos();
         this.setPreferredSize(new Dimension(n * TILESIZE, m * TILESIZE)); // vinduets størrelse defineres
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
@@ -41,13 +44,18 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
     }
 
+    public void setUpGame() {
+        gameState = playState;
+    }
+
     // spillet startes
     public void startGame() {
-        getImage();
-        snake.getPlayerImage();
+        gameRunning = true;
+        setUpGame();
+        entity.getImage();
         gameThread = new Thread(this);
         gameThread.start();
-        createApple();
+        entity.createApple();
     }
 
     @Override
@@ -75,30 +83,22 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // metoden bruger "ImageIO.read" til at læse filerne fra classpath og de er gemt
-    // i BufferedImage variablerne
-    public void getImage() {
-        try {
-            Æble = ImageIO.read(getClass().getResourceAsStream("/res/Æble.png"));
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    // registrerer spillerens bevægelse
     // Optimer senere
     public void update() {
-        snake.update();
-        snake.appleEat();
-        checkCollision();
+        // Spillet bliver kører
+        if (gameState == playState) {
+            entity.update();
+            checkCollision();
+        } else {
+            // Hvis spillet bliver pauset, sker der ingenting
+        }
     }
 
     // paintComponent er en indbygget metode i JPanel
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (gameThread != null) {
+        if (gameRunning) {
             // griddet tegnes
             g.setColor(Color.WHITE);
             for (int i = 0; i < m; i++) {
@@ -108,65 +108,35 @@ public class GamePanel extends JPanel implements Runnable {
                 g.drawLine(j * TILESIZE, 0, j * TILESIZE, SCREENHEIGHT);
 
             }
-            snake.draw(g);
-            // æble tegnes med vores egen tegning
-            g.drawImage(Æble, appleX, appleY, TILESIZE, TILESIZE, null);
-
-            g.setColor(Color.RED);
-            g.setFont(new Font("Ink Free", Font.BOLD, 50));
-            FontMetrics metrics = getFontMetrics(g.getFont());
-            g.drawString("Score: " + snake.appleEaten,
-                    (SCREENWIDTH - metrics.stringWidth("Score: " + snake.appleEaten)) / 2,
-                    TILESIZE);
+            entity.draw(g); // Slangen og æblet tegnes
+            UI.draw(g);
         } else {
-            gameOver(g);
+            UI.drawGameOver(g);
         }
-
     }
 
-    // Finder random koordinater til æblet
-    public void createApple() {
-        int tempX = random.nextInt(n) * TILESIZE;
-        int tempY = random.nextInt(m) * TILESIZE;
-        int[] x = snake.getXarr();
-        int[] y = snake.getYarr();
-
-        // tjekker om koordinaterne til æblet er i slangen
-        for (int i = 0; i < snake.bodyParts; i++) {
-            while (x[i] == tempX && y[i] == tempY) {
-                tempX = random.nextInt(n) * TILESIZE;
-                tempY = random.nextInt(m) * TILESIZE;
-            }
-        }
-
-        appleX = tempX;
-        appleY = tempY;
-    }
-
-    // Tjekker collision med sig selv
     public void checkCollision() {
-        int[] x = snake.getXarr();
-        int[] y = snake.getYarr();
+        int[] x = entity.getXarr();
+        int[] y = entity.getYarr();
 
-        for (int i = snake.bodyParts; i > 0; i--) {
+        // Tjekker collision med sig selv
+        for (int i = entity.bodyParts; i > 0; i--) {
             if (y[0] == y[i] && x[0] == x[i]) {
-                gameThread = null;
+                gameRunning = false;
             }
         }
+
         // Tjekker om slangens hovedet er inden for banen.
         if (x[0] < 0 || x[0] >= SCREENWIDTH || y[0] < 0 || y[0] >= SCREENHEIGHT) {
-            gameThread = null;
+            gameRunning = false;
         }
     }
 
-    // Funktion der tegner game over stats og tekst
-    public void gameOver(Graphics g) {
-        g.setColor(Color.RED);
-        g.setFont(new Font("Ink Free", Font.BOLD, 75));
-        FontMetrics metrics = getFontMetrics(g.getFont());
-        g.drawString("Game Over", (SCREENWIDTH - metrics.stringWidth("Game Over")) / 2, SCREENHEIGHT / 2);
-        g.drawString("Point: " + snake.appleEaten,
-                (SCREENWIDTH - metrics.stringWidth("Point: " + snake.appleEaten)) / 2,
-                SCREENHEIGHT / 4);
+    public int getGameState() {
+        return gameState;
+    }
+
+    public void setGameState(int n) {
+        gameState = n;
     }
 }

@@ -15,11 +15,8 @@ public class SettingPanel extends JPanel {
     private final int SCREENWIDTH = 1280;
     private final int SCREENHEIGHT = 720;
     private final int IMAGEPOSWIDTH = 100;
-    private final int IMAGEPOSHEIGHT = 200; 
-
     private BufferedImage arrowUp;
     private BufferedImage arrowDown;
-    
 
     MouseHandler mouseH = new MouseHandler();
 
@@ -32,23 +29,25 @@ public class SettingPanel extends JPanel {
         try {
             arrowUp = ImageIO.read(new File("./res/arrowUp.png"));
             arrowDown = ImageIO.read(new File("./res/arrowDown.png"));
-        } catch(IOException e) {e.printStackTrace();}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         repaint();
         MouseHandler.changeSet(true);
     }
-  
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        
+
         g.setColor(Color.GREEN);
         // titel på spil
         drawText("Settings", 60, 100, g);
 
-        //Tegner linje
+        // Tegner linje
         g.setColor(Color.WHITE);
         g2.setStroke(new BasicStroke(3));
-        g.drawLine(300, 115, SCREENWIDTH-300, 115);
+        g.drawLine(300, 115, SCREENWIDTH - 300, 115);
 
         // start-knap
         g.setColor(Color.GREEN);
@@ -57,8 +56,7 @@ public class SettingPanel extends JPanel {
         g.drawImage(arrowDown, 400, 250, IMAGEPOSWIDTH, 100, null, null);
 
         drawText("Back", 50, 275, g);
-        
-        
+
     }
 
     public void drawText(String text, int size, int y, Graphics g) {

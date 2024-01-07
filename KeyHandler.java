@@ -3,6 +3,11 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     private char direction = 'D';
+    GamePanel gp;
+
+    public KeyHandler(GamePanel gp) {
+        this.gp = gp;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -27,6 +32,15 @@ public class KeyHandler implements KeyListener {
             case KeyEvent.VK_D:
                 direction = 'D';
                 break;
+            case KeyEvent.VK_ESCAPE:
+                if (gp.getGameState() == gp.playState) {
+                    gp.setGameState(gp.pauseState);
+                    break;
+                } else if (gp.getGameState() == gp.pauseState) {
+                    gp.setGameState(gp.playState);
+                    break;
+                }
+                
         }
     }
 
