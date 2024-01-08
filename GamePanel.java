@@ -23,6 +23,9 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 1;
     public final int pauseState = 2;
 
+    // Musikken
+    Sound sound = new Sound();
+
     // Objects needed
     Random random;
     KeyHandler keyH = new KeyHandler(this);
@@ -36,6 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.SCREENWIDTH = TILESIZE * n;
         this.SCREENHEIGHT = TILESIZE * m;
         this.random = new Random();
+        entity.snakePos();
         this.setPreferredSize(new Dimension(n * TILESIZE, m * TILESIZE)); // vinduets størrelse defineres
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
@@ -45,6 +49,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setUpGame() {
         gameState = playState;
+
+        PlayMusic(0);
     }
 
     // spillet startes
@@ -52,7 +58,6 @@ public class GamePanel extends JPanel implements Runnable {
         gameRunning = true;
         setUpGame();
         entity.getImage();
-        entity.snakePos();
         gameThread = new Thread(this);
         gameThread.start();
         entity.createApple();
@@ -138,5 +143,21 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setGameState(int n) {
         gameState = n;
+    }
+
+    public void PlayMusic(int i) {
+
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public void stopMusic() {
+        sound.stop();
+    }
+
+    public void PlaySE(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 }
