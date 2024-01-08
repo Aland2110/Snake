@@ -36,7 +36,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.SCREENWIDTH = TILESIZE * n;
         this.SCREENHEIGHT = TILESIZE * m;
         this.random = new Random();
-        entity.snakePos();
         this.setPreferredSize(new Dimension(n * TILESIZE, m * TILESIZE)); // vinduets størrelse defineres
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
@@ -53,6 +52,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameRunning = true;
         setUpGame();
         entity.getImage();
+        entity.snakePos();
         gameThread = new Thread(this);
         gameThread.start();
         entity.createApple();
