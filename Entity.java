@@ -81,6 +81,7 @@ public class Entity {
             x[i] = x[i - 1];
             y[i] = y[i - 1];
         }
+
         char dir = keyH.getDir();
         if (dir == 'W') {
             if (lastDir != 'S') {
@@ -128,7 +129,7 @@ public class Entity {
         BufferedImage image = null;
 
         g.drawImage(Æble, appleX, appleY, gp.TILESIZE, gp.TILESIZE, null);
-        
+
         switch (lastDir) {
             case 'W':
                 if (spriteNum == 1) {
@@ -190,33 +191,38 @@ public class Entity {
         // tegner slangens hovede
         g.drawImage(image, x[0], y[0], gp.TILESIZE, gp.TILESIZE, null);
 
-        // tegner slangens krop vandret
-        if (keyH.getDir() == 'D' || keyH.getDir() == 'A') {
-            for (int i = 1; i < bodyParts - 1; i++) {
-                g.drawImage(KropH, x[i], y[i], gp.TILESIZE, gp.TILESIZE, null);
+        // itererer gennem slangens krop hvor hovedet og halen er eksluderet
+        for (int i = 1; i < bodyParts - 1; i++) {
+            BufferedImage bodyImage = null;
+            if (x[i] < x[i - 1] || x[i] > x[i - 1]) {
+                bodyImage = KropH;
             }
-            // tegner slangens krop lodret
-        } else if (keyH.getDir() == 'W' || keyH.getDir() == 'S') {
-            for (int i = 1; i < bodyParts - 1; i++) {
-                g.drawImage(Krop, x[i], y[i], gp.TILESIZE, gp.TILESIZE, null);
+            if (y[i] < y[i - 1] || y[i] > y[i - 1]) {
+                bodyImage = Krop;
             }
+
+            g.drawImage(bodyImage, x[i], y[i], gp.TILESIZE, gp.TILESIZE, null);
         }
+
         BufferedImage tailImage = null;
-        // Vælger det korrekte hale billede baseret på retningen.
-        switch (keyH.getDir()) {
-            case 'W':
-                tailImage = Hale;
-                break;
-            case 'S':
-                tailImage = HaleN;
-                break;
-            case 'D':
-                tailImage = HaleH;
-                break;
-            case 'A':
-                tailImage = HaleV;
-                break;
-        }
+
+        
+            int tailX = x[bodyParts - 1] - x[bodyParts - 2];
+            int tailY = y[bodyParts - 1] - y[bodyParts - 2];
+
+            if (tailX < 0) {
+                // Tjekker om halen er til venstre for den forrige kropsdel
+                tailImage = HaleH; 
+            } else if (tailX > 0) {
+                // Tjekker om halen er til højre for den forrige kropsdel
+                tailImage = HaleV; 
+            } else if (tailY < 0) {
+                // Tjekker om halen er over den forrige kropsdel
+                tailImage = HaleN; 
+            } else if (tailY > 0) {
+                // Tjekker om halen er under den forrige kropsdel
+                tailImage = Hale; 
+            }
 
         // Slangens hale tegnes
         g.drawImage(tailImage, x[bodyParts - 1], y[bodyParts - 1], gp.TILESIZE, gp.TILESIZE, null);
