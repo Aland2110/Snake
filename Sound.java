@@ -1,24 +1,25 @@
 import java.net.URL;
-
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
+import javax.sound.sampled.FloatControl;
 
 public class Sound {
 
         Clip clip;
         URL soundURL[] = new URL[30];
+        FloatControl control;
 
         public Sound() {
                 soundURL[0] = getClass().getResource("res\\musik\\mario musik.wav");
         }
 
         public void setFile(int i) {
-
                 try {
                         AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
                         clip = AudioSystem.getClip();
                         clip.open(ais);
+                        volume(-30);
                 } catch (Exception e) {
 
                 }
@@ -34,5 +35,10 @@ public class Sound {
 
         public void stop() {
                 clip.stop();
+        }
+
+        public void volume(float v) {
+                control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+                control.setValue(v);
         }
 }
