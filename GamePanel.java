@@ -6,20 +6,21 @@ import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
     // Screen size & resolution
-    private int ORIGINALSIZE = 25;
-    private int SCALE = 2;
-    public int TILESIZE = ORIGINALSIZE * SCALE;
-    public int SCREENWIDTH;
-    public int SCREENHEIGHT;
+    public int TILESIZE = 100;
+    public int GAMEWIDTH;
+    public int GAMEHEIGHT;
     public int n;
     public int m;
 
     // Game running variables
-    private int FPS = 5;
+    private int FPS;
     private boolean gameRunning;
+    private double drawInterval;
+    private double nextDrawTime;
 
     // Game State
     private int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
 
@@ -33,29 +34,44 @@ public class GamePanel extends JPanel implements Runnable {
     Entity entity = new Entity(this, keyH);
     UI UI = new UI(this, entity);
 
-    public GamePanel(int n, int m) {
-        this.n = n < 5 || n > 100 ? 20 : n;
-        this.m = m < 5 || m > 100 ? 20 : m;
-        this.SCREENWIDTH = TILESIZE * n;
-        this.SCREENHEIGHT = TILESIZE * m;
+    public GamePanel(int n, int m, int s) {
         this.random = new Random();
-        entity.snakePos();
-        this.setPreferredSize(new Dimension(n * TILESIZE, m * TILESIZE)); // vinduets størrelse defineres
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
+        this.gameState = s;
+        settings(n, m);
     }
 
-    public void setUpGame() {
-        gameState = playState;
+    public void settings(int n, int m) {
+        this.n = n < 5 || n > 100 ? 20 : n;
+            this.m = m < 5 || m > 100 ? 20 : m;
+            this.GAMEWIDTH = TILESIZE * n;
+            this.GAMEHEIGHT = TILESIZE * m;
+    
+            while (GAMEWIDTH > 1400 || GAMEHEIGHT > 700) {
+                TILESIZE -= 1;
+                this.GAMEWIDTH = TILESIZE * n;
+                this.GAMEHEIGHT = TILESIZE * m;
+            }
+    
+            this.setPreferredSize(new Dimension(GAMEWIDTH, GAMEHEIGHT)); // spilets størrelse defineres
+            this.setMaximumSize(new Dimension(GAMEWIDTH, GAMEHEIGHT));
+            this.setMinimumSize(new Dimension(GAMEWIDTH, GAMEHEIGHT));
+            this.FPS = 5;
+        }
 
-        PlayMusic(0);
+    public void setUpGame() {
+        entity.snakePos();
+        // PlayMusic(0);
     }
 
     // spillet startes
     public void startGame() {
         gameRunning = true;
+        settings(n, m);
+        this.drawInterval = 1000000000 / FPS;
         setUpGame();
         entity.getImage();
         gameThread = new Thread(this);
@@ -65,8 +81,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1000000000 / FPS;
-        double nextDrawTime = System.nanoTime() + drawInterval;
+        this.drawInterval = 1000000000 / FPS;
+        this.nextDrawTime = System.nanoTime() + drawInterval;
 
         // mens spillet kører, opdateres og tegnes vinduet
         while (gameThread != null) {
@@ -90,11 +106,11 @@ public class GamePanel extends JPanel implements Runnable {
 
     // Optimer senere
     public void update() {
-        // Spillet bliver kører
+        // Spillet bliver kørt
         if (gameState == playState) {
             entity.update();
             checkCollision();
-        } else {
+        } else if (gameState == pauseState) {
             // Hvis spillet bliver pauset, sker der ingenting
         }
     }
@@ -104,17 +120,12 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         if (gameRunning) {
-            // griddet tegnes
-            g.setColor(Color.WHITE);
-            for (int i = 0; i < m; i++) {
-                g.drawLine(0, i * TILESIZE, SCREENWIDTH, i * TILESIZE);
+            if (gameState != titleState) {
+                entity.draw(g); // Slangen og æblet tegnes
+                UI.drawPlay(g);
+            } else {
+                UI.drawTitleScreen(g);
             }
-            for (int j = 0; j < n; j++) {
-                g.drawLine(j * TILESIZE, 0, j * TILESIZE, SCREENHEIGHT);
-
-            }
-            entity.draw(g); // Slangen og æblet tegnes
-            UI.draw(g);
         } else {
             UI.drawGameOver(g);
         }
@@ -132,7 +143,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         // Tjekker om slangens hovedet er inden for banen.
-        if (x[0] < 0 || x[0] >= SCREENWIDTH || y[0] < 0 || y[0] >= SCREENHEIGHT) {
+        if (x[0] < 0 || x[0] >= GAMEWIDTH || y[0] < 0 || y[0] >= GAMEHEIGHT) {
             gameRunning = false;
         }
     }
@@ -159,5 +170,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void PlaySE(int i) {
         sound.setFile(i);
         sound.play();
+    }
+
+    public void screenFit() {
+        while (GAMEWIDTH > 1200 && GAMEHEIGHT > 500) {
+            TILESIZE -= 1;
+        }
     }
 }

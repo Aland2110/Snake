@@ -28,8 +28,8 @@ public class Entity {
     }
 
     public void snakePos() {
-        this.x = new int[(gp.SCREENWIDTH * gp.SCREENHEIGHT) / gp.TILESIZE];
-        this.y = new int[(gp.SCREENWIDTH * gp.SCREENHEIGHT) / gp.TILESIZE];
+        this.x = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
+        this.y = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
         this.lastDir = 'D';
 
         for (int i = 0; i < bodyParts; i++) {

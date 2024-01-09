@@ -1,57 +1,33 @@
-
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 public class Main {
-    private static JFrame menuWindow = new JFrame();
-    private static JFrame settingWindow = new JFrame();
+    public static final int SCREENWIDTH = 1600;
+    public static final int SCREENHEIGHT = 1000;
 
     public static void main(String[] args) {
-        menu();
-    }
-
-    public static void menu() {
-        settingWindow.dispose();
-        menuWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        menuWindow.setResizable(false);
-        menuWindow.setTitle("Snake game");
-
-        MenuPanel menuPanel = new MenuPanel();
-
-        menuWindow.add(menuPanel);
-        menuWindow.pack();
-        menuWindow.setLocationRelativeTo(null);
-        menuWindow.setVisible(true);
-    }
-
-    public static void settings() {
-        menuWindow.dispose();
-        settingWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        settingWindow.setResizable(false);
-        settingWindow.setTitle("Snake game");
-
-        SettingPanel settingPanel = new SettingPanel();
-
-        settingWindow.add(settingPanel);
-        settingWindow.pack();
-        settingWindow.setLocationRelativeTo(null);
-        settingWindow.setVisible(true);
+        game(40, 20);
     }
 
     public static void game(int n, int m) {
-        menuWindow.dispose();
-
         JFrame gameWindow = new JFrame();
-        GamePanel gamePanel = new GamePanel(n, m);
+        GamePanel gamePanel = new GamePanel(n, m, 0);
 
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameWindow.setResizable(false);
         gameWindow.setTitle("Snake game");
-        gameWindow.add(gamePanel);
-        gameWindow.pack();
+        gameWindow.setSize(SCREENWIDTH, SCREENHEIGHT);
+
+        Box box = new Box(BoxLayout.Y_AXIS);
+        box.add(Box.createVerticalGlue());
+        box.add(gamePanel);
+        box.add(Box.createVerticalGlue());
+
+        gameWindow.add(box);
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
+    
         gamePanel.startGame();
     }
-
-
 }

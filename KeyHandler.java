@@ -19,28 +19,59 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        switch (code) {
-            case KeyEvent.VK_W:
-                direction = 'W';
-                break;
-            case KeyEvent.VK_A:
-                direction = 'A';
-                break;
-            case KeyEvent.VK_S:
-                direction = 'S';
-                break;
-            case KeyEvent.VK_D:
-                direction = 'D';
-                break;
-            case KeyEvent.VK_ESCAPE:
-                if (gp.getGameState() == gp.playState) {
-                    gp.setGameState(gp.pauseState);
+        if (gp.getGameState() == gp.titleState) {
+            switch (code) {
+                case KeyEvent.VK_W:
+                    gp.UI.commandNum--;
+                    if (gp.UI.commandNum < 0) {
+                        gp.UI.commandNum = 2;
+                    }
                     break;
-                } else if (gp.getGameState() == gp.pauseState) {
-                    gp.setGameState(gp.playState);
+                case KeyEvent.VK_S:
+                    gp.UI.commandNum++;
+                    if (gp.UI.commandNum > 2) {
+                        gp.UI.commandNum = 0;
+                    }
                     break;
-                }
-                
+                case KeyEvent.VK_ENTER:
+                    if (gp.UI.commandNum == 0) {
+                        gp.setGameState(1);
+                        gp.startGame();
+                    }
+                    if (gp.UI.commandNum == 1) {
+                        //Later
+                    }
+                    if (gp.UI.commandNum == 2) {
+                        System.exit(0);
+                    }
+                    break;
+            }
+        }
+
+        if (gp.getGameState() != gp.titleState) {
+            switch (code) {
+                case KeyEvent.VK_W:
+                    direction = 'W';
+                    break;
+                case KeyEvent.VK_A:
+                    direction = 'A';
+                    break;
+                case KeyEvent.VK_S:
+                    direction = 'S';
+                    break;
+                case KeyEvent.VK_D:
+                    direction = 'D';
+                    break;
+                case KeyEvent.VK_ESCAPE:
+                    if (gp.getGameState() == gp.playState) {
+                        gp.setGameState(gp.pauseState);
+                        break;
+                    } else if (gp.getGameState() == gp.pauseState) {
+                        gp.setGameState(gp.playState);
+                        break;
+                    }
+                    
+            }
         }
     }
 
