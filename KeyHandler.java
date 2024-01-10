@@ -22,34 +22,31 @@ public class KeyHandler implements KeyListener {
         if (gp.getGameState() == gp.titleState) {
             switch (code) {
                 case KeyEvent.VK_W:
-                    gp.UI.commandNum--;
-                    if (gp.UI.commandNum < 0) {
-                        gp.UI.commandNum = 2;
+                    gp.UI.titleCommandNum--;
+                    if (gp.UI.titleCommandNum < 0) {
+                        gp.UI.titleCommandNum = 2;
                     }
                     break;
                 case KeyEvent.VK_S:
-                    gp.UI.commandNum++;
-                    if (gp.UI.commandNum > 2) {
-                        gp.UI.commandNum = 0;
+                    gp.UI.titleCommandNum++;
+                    if (gp.UI.titleCommandNum > 2) {
+                        gp.UI.titleCommandNum = 0;
                     }
                     break;
                 case KeyEvent.VK_ENTER:
-                    if (gp.UI.commandNum == 0) {
-                        gp.setGameState(1);
+                    if (gp.UI.titleCommandNum == 0) {
+                        gp.setGameState(gp.playState);
                         gp.startGame();
-                        gp.PlayMusic(0);
-                    }
-                    if (gp.UI.commandNum == 1) {
-                        //Later
-                    }
-                    if (gp.UI.commandNum == 2) {
+                    } else if (gp.UI.titleCommandNum == 1) {
+                        // Later
+                    } else if (gp.UI.titleCommandNum == 2) {
                         System.exit(0);
                     }
                     break;
             }
         }
 
-        if (gp.getGameState() != gp.titleState) {
+        if (gp.getGameState() == gp.playState || gp.getGameState() == gp.pauseState) {
             switch (code) {
                 case KeyEvent.VK_W:
                     direction = 'W';
@@ -71,7 +68,60 @@ public class KeyHandler implements KeyListener {
                         gp.setGameState(gp.playState);
                         break;
                     }
-                    
+
+            }
+        }
+
+        if (gp.getGameState() == gp.pauseState) {
+            switch (code) {
+                case KeyEvent.VK_W:
+                    gp.UI.pauseCommandNum--;
+                    if (gp.UI.pauseCommandNum < 0) {
+                        gp.UI.pauseCommandNum = 2;
+                    }
+                    break;
+                case KeyEvent.VK_S:
+                    gp.UI.pauseCommandNum++;
+                    if (gp.UI.pauseCommandNum > 2) {
+                        gp.UI.pauseCommandNum = 0;
+                    }
+                    break;
+                case KeyEvent.VK_ENTER:
+                    if (gp.UI.pauseCommandNum == 0) {
+                        gp.setGameState(gp.playState);
+                    } else if (gp.UI.pauseCommandNum == 1) {
+                        gp.setGameState(gp.titleState);
+                    } else if (gp.UI.pauseCommandNum == 2) {
+                        System.exit(0);
+                    }
+                    break;
+            }
+        }
+
+        if (gp.getGameState() == gp.gameOverState) {
+            switch (code) {
+                case KeyEvent.VK_W:
+                    gp.UI.gameOverCommandNum--;
+                    if (gp.UI.gameOverCommandNum < 0) {
+                        gp.UI.gameOverCommandNum = 2;
+                    }
+                    break;
+                case KeyEvent.VK_S:
+                    gp.UI.gameOverCommandNum++;
+                    if (gp.UI.gameOverCommandNum > 2) {
+                        gp.UI.gameOverCommandNum = 0;
+                    }
+                    break;
+                case KeyEvent.VK_ENTER:
+                    if (gp.UI.gameOverCommandNum == 0) {
+                        gp.setGameState(gp.playState);
+                        gp.startGame();
+                    } else if (gp.UI.gameOverCommandNum == 1) {
+                        gp.setGameState(gp.titleState);
+                    } else if (gp.UI.gameOverCommandNum == 2) {
+                        System.exit(0);
+                    }
+                    break;
             }
         }
     }

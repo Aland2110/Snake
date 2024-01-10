@@ -25,7 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
-    public final int gameOver = 3;
+    public final int gameOverState = 3;
 
     // Musikken
     Sound sound = new Sound();
@@ -57,8 +57,8 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameWindowXStart = ((int) screenSize.getWidth() - GAMEWIDTH) / 2;
         this.gameWindowYStart = ((int) screenSize.getHeight() - GAMEHEIGHT) / 2;
 
-        while (GAMEWIDTH > (int) screenSize.getWidth() - TILESIZE * 8
-                || GAMEHEIGHT > (int) screenSize.getHeight() - TILESIZE * 6) {
+        while (GAMEWIDTH > (int) screenSize.getWidth() - TILESIZE * 4
+                || GAMEHEIGHT > (int) screenSize.getHeight() - TILESIZE * 20) {
             TILESIZE -= 1;
             this.GAMEWIDTH = TILESIZE * n;
             this.GAMEHEIGHT = TILESIZE * m;
@@ -76,13 +76,10 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void setUpGame() {
-        entity.snakePos();
-    }
-
     // spillet startes
     public void startGame() {
-        setUpGame();
+        entity.applesEaten = 0; 
+        entity.snakePos();
         entity.getImage();
         gameThread = new Thread(this);
         gameThread.start();
@@ -132,11 +129,11 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState == playState || gameState == pauseState) {
             UI.drawScore(g);
             entity.draw(g); // Slangen og æblet tegnes
-            UI.drawPlay(g);
+            UI.drawPause(g);
             UI.drawLevel(g);
         } else if (gameState == titleState) {
             UI.drawTitleScreen(g);
-        } else if (gameState == gameOver) {
+        } else if (gameState == gameOverState) {
             UI.drawGameOver(g);
         }
     }
@@ -148,14 +145,16 @@ public class GamePanel extends JPanel implements Runnable {
         // Tjekker collision med sig selv
         for (int i = entity.bodyParts; i > 0; i--) {
             if (y[0] == y[i] && x[0] == x[i]) {
-                gameState = gameOver;
+                gameState = gameOverState;
+                entity.snakePos();
             }
         }
 
         // Tjekker om slangens hovedet er inden for banen.
         if (x[0] < gameWindowXStart || x[0] >= gameWindowXStart + GAMEWIDTH || y[0] < gameWindowYStart
                 || y[0] >= gameWindowYStart + GAMEHEIGHT) {
-            gameState = gameOver;
+            gameState = gameOverState;
+            entity.snakePos();
         }
     }
 

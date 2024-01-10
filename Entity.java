@@ -7,8 +7,8 @@ import java.util.Random;
 public class Entity {
     private int[] x;
     private int[] y;
-    public int bodyParts = 2;
-    public int appleEaten;
+    public int bodyParts;
+    public int applesEaten;
     private char lastDir;
     private int spriteCounter = 0;
     private int spriteNum = 1;
@@ -32,6 +32,7 @@ public class Entity {
         this.x = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
         this.y = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
         this.lastDir = 'D';
+        this.bodyParts = 2;
 
         for (int i = 0; i < bodyParts; i++) {
             x[i] = (gp.n / 2 - i) * gp.TILESIZE + gp.gameWindowXStart;
@@ -259,7 +260,7 @@ public class Entity {
     public void appleEat() {
         if (y[0] == appleY && x[0] == appleX) {
             bodyParts++;
-            appleEaten++;
+            applesEaten++;
             createApple();
         }
     }

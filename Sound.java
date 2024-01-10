@@ -11,7 +11,7 @@ public class Sound {
         FloatControl control;
 
         public Sound() {
-                soundURL[0] = getClass().getResource("res\\musik\\mario musik.wav");
+                soundURL[0] = getClass().getResource("res\\musik\\mario_musik.wav");
                 soundURL[1] = getClass().getResource("res\\musik\\Eating sound effect LUCAS ARPON TV.wav");
         }
 

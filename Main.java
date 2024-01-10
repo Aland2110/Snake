@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-        game(40, 20);
+        game(20, 20);
     }
 
     public static void game(int n, int m) {
@@ -17,7 +17,7 @@ public class Main {
         gameWindow.add(gamePanel);
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
-    
+
         gamePanel.startGame();
     }
 }
