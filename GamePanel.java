@@ -57,7 +57,7 @@ public class GamePanel extends JPanel implements Runnable {
             this.gameWindowXStart = ((int)screenSize.getWidth()-GAMEWIDTH)/2;
             this.gameWindowYStart = ((int)screenSize.getHeight()-GAMEHEIGHT)/2;
     
-            while (GAMEWIDTH > 1400 || GAMEHEIGHT > 700) {
+            while (GAMEWIDTH > (int)screenSize.getWidth() - TILESIZE*8 || GAMEHEIGHT > (int)screenSize.getHeight()-TILESIZE*6) {
                 TILESIZE -= 1;
                 this.GAMEWIDTH = TILESIZE * n;
                 this.GAMEHEIGHT = TILESIZE * m;
@@ -131,6 +131,7 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (gameState != gameOver) {
             if (gameState != titleState) {
+                UI.drawScore(g);
                 entity.draw(g); // Slangen og æblet tegnes
                 UI.drawPlay(g);
                 UI.drawLevel(g);
