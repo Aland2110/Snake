@@ -13,7 +13,8 @@ public class Entity {
     private int spriteCounter = 0;
     private int spriteNum = 1;
     private BufferedImage Hoved1, Hoved1H, Hoved1N, Hoved1V, Hoved2, Hoved2H, Hoved2N, Hoved2V, Hoved3, Hoved3H,
-            Hoved3N, Hoved3V, Hoved4, Hoved4H, Hoved4N, Hoved4V, Hale, HaleH, HaleN, HaleV, Krop, KropH, Æble;;
+            Hoved3N, Hoved3V, Hoved4, Hoved4H, Hoved4N, Hoved4V, Hale, HaleH, HaleN, HaleV, Krop, KropH, Æble,
+            Hjørnestykke, HjørnestykkeV, HjørnestykkeH, HjørnestykkeN;
     private int appleX;
     private int appleY;
 
@@ -28,8 +29,8 @@ public class Entity {
     }
 
     public void snakePos() {
-        this.x = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
-        this.y = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
+        this.x = new int[(gp.SCREENWIDTH * gp.SCREENHEIGHT) / gp.TILESIZE];
+        this.y = new int[(gp.SCREENWIDTH * gp.SCREENHEIGHT) / gp.TILESIZE];
         this.lastDir = 'D';
 
         for (int i = 0; i < bodyParts; i++) {
@@ -71,6 +72,10 @@ public class Entity {
             Krop = ImageIO.read(getClass().getResourceAsStream("/res/Krop.png"));
             KropH = ImageIO.read(getClass().getResourceAsStream("/res/Krop (H).png"));
             Æble = ImageIO.read(getClass().getResourceAsStream("/res/Æble.png"));
+            Hjørnestykke = ImageIO.read(getClass().getResourceAsStream("/res/Hjørnestykke.png"));
+            HjørnestykkeV = ImageIO.read(getClass().getResourceAsStream("/res/HjørnestykkeV.png"));
+            HjørnestykkeN = ImageIO.read(getClass().getResourceAsStream("/res/HjørnestykkeN.png"));
+            HjørnestykkeH = ImageIO.read(getClass().getResourceAsStream("/res/HjørnestykkeH.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -194,35 +199,58 @@ public class Entity {
         // itererer gennem slangens krop hvor hovedet og halen er eksluderet
         for (int i = 1; i < bodyParts - 1; i++) {
             BufferedImage bodyImage = null;
-            if (x[i] < x[i - 1] || x[i] > x[i - 1]) {
+            // Kommer fra venstre side og går op
+            if (x[i] > x[i + 1] && y[i] > y[i - 1]) {
+                bodyImage = HjørnestykkeV;
+            } // Kommer fra venstre side og går ned
+            else if (x[i] > x[i + 1] && y[i] < y[i - 1]) {
+                bodyImage = Hjørnestykke; 
+            }  // Kommer fra venstre side og går op
+            else if (x[i] > x[i - 1] && y[i] > y[i + 1]) {
+                bodyImage = HjørnestykkeV;
+            } // Kommer fra højre side og går ned
+            else if (x[i] < x[i + 1] && y[i] < y[i - 1]) {
+                bodyImage = HjørnestykkeN;
+            } // Kommer fra højre side og går op
+            else if (x[i] < x[i + 1] && y[i] > y[i - 1]) {
+                bodyImage = HjørnestykkeH;
+            } // Kommer oppe fra og går til højre
+            else if (x[i] < x[i - 1] && y[i] > y[i + 1]) {
+                bodyImage = HjørnestykkeH;
+            } // Kommer nede fra og går til højre
+            else if (x[i] < x[i - 1] && y[i] < y[i + 1]) {
+                bodyImage = HjørnestykkeN;
+            } // Kommer nede fra og går til venstre 
+            else if (x[i] > x[i - 1] && y[i] < y[i + 1]) {
+                bodyImage = Hjørnestykke;
+            } // Kroppen vandret
+            else if (x[i] < x[i - 1] || x[i] > x[i - 1]) {
                 bodyImage = KropH;
-            }
-            if (y[i] < y[i - 1] || y[i] > y[i - 1]) {
+            } // Kroppen lodret
+            else if (y[i] < y[i - 1] || y[i] > y[i - 1]) {
                 bodyImage = Krop;
             }
-
             g.drawImage(bodyImage, x[i], y[i], gp.TILESIZE, gp.TILESIZE, null);
         }
 
         BufferedImage tailImage = null;
 
-        
-            int tailX = x[bodyParts - 1] - x[bodyParts - 2];
-            int tailY = y[bodyParts - 1] - y[bodyParts - 2];
+        int tailX = x[bodyParts - 1] - x[bodyParts - 2];
+        int tailY = y[bodyParts - 1] - y[bodyParts - 2];
 
-            if (tailX < 0) {
-                // Tjekker om halen er til venstre for den forrige kropsdel
-                tailImage = HaleH; 
-            } else if (tailX > 0) {
-                // Tjekker om halen er til højre for den forrige kropsdel
-                tailImage = HaleV; 
-            } else if (tailY < 0) {
-                // Tjekker om halen er over den forrige kropsdel
-                tailImage = HaleN; 
-            } else if (tailY > 0) {
-                // Tjekker om halen er under den forrige kropsdel
-                tailImage = Hale; 
-            }
+        if (tailX < 0) {
+            // Tjekker om halen er til venstre for den forrige kropsdel
+            tailImage = HaleH;
+        } else if (tailX > 0) {
+            // Tjekker om halen er til højre for den forrige kropsdel
+            tailImage = HaleV;
+        } else if (tailY < 0) {
+            // Tjekker om halen er over den forrige kropsdel
+            tailImage = HaleN;
+        } else if (tailY > 0) {
+            // Tjekker om halen er under den forrige kropsdel
+            tailImage = Hale;
+        }
 
         // Slangens hale tegnes
         g.drawImage(tailImage, x[bodyParts - 1], y[bodyParts - 1], gp.TILESIZE, gp.TILESIZE, null);
