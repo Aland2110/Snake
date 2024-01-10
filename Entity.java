@@ -257,10 +257,12 @@ public class Entity {
     }
 
     public void appleEat() {
+        Sound sound = new Sound();
         if (y[0] == appleY && x[0] == appleX) {
             bodyParts++;
             appleEaten++;
             createApple();
+            gp.PlaySE(1);
         }
     }
 
@@ -278,5 +280,20 @@ public class Entity {
 
         appleX = tempX;
         appleY = tempY;
+    }
+    public void PlayMusic(int i) {
+
+        gp.sound.setFile(i);
+        gp.sound.play();
+        gp.sound.loop();
+    }
+
+    public void stopMusic() {
+        gp.sound.stop();
+    }
+
+    public void PlaySE(int i) {
+        gp.sound.setFile(i);
+        gp.sound.play();
     }
 }
