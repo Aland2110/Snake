@@ -29,8 +29,8 @@ public class Entity {
     }
 
     public void snakePos() {
-        this.x = new int[(gp.SCREENWIDTH * gp.SCREENHEIGHT) / gp.TILESIZE];
-        this.y = new int[(gp.SCREENWIDTH * gp.SCREENHEIGHT) / gp.TILESIZE];
+        this.x = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
+        this.y = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
         this.lastDir = 'D';
 
         for (int i = 0; i < bodyParts; i++) {
@@ -265,14 +265,14 @@ public class Entity {
     }
 
     public void createApple() {
-        int tempX = random.nextInt(gp.n) * gp.TILESIZE;
-        int tempY = random.nextInt(gp.m) * gp.TILESIZE;
+        int tempX = random.nextInt(gp.n) * gp.TILESIZE + gp.gameWindowXStart;
+        int tempY = random.nextInt(gp.m) * gp.TILESIZE + gp.gameWindowYStart;
 
         // tjekker om koordinaterne til æblet er i slangen
         for (int i = 0; i < bodyParts; i++) {
             while (x[i] == tempX && y[i] == tempY) {
-                tempX = random.nextInt(gp.n) * gp.TILESIZE;
-                tempY = random.nextInt(gp.m) * gp.TILESIZE;
+                tempX = random.nextInt(gp.n) * gp.TILESIZE + gp.gameWindowXStart;
+                tempY = random.nextInt(gp.m) * gp.TILESIZE + gp.gameWindowYStart;
             }
         }
 

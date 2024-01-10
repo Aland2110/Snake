@@ -1,11 +1,6 @@
-import javax.swing.Box;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 
 public class Main {
-    public static final int SCREENWIDTH = 1600;
-    public static final int SCREENHEIGHT = 1000;
-
     public static void main(String[] args) {
         game(40, 20);
     }
@@ -17,14 +12,9 @@ public class Main {
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameWindow.setResizable(false);
         gameWindow.setTitle("Snake game");
-        gameWindow.setSize(SCREENWIDTH, SCREENHEIGHT);
-
-        Box box = new Box(BoxLayout.Y_AXIS);
-        box.add(Box.createVerticalGlue());
-        box.add(gamePanel);
-        box.add(Box.createVerticalGlue());
-
-        gameWindow.add(box);
+        gameWindow.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        gameWindow.setUndecorated(true);
+        gameWindow.add(gamePanel);
         gameWindow.setLocationRelativeTo(null);
         gameWindow.setVisible(true);
     

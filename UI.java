@@ -33,17 +33,17 @@ public class UI {
         g.setColor(Color.RED);
         g.setFont(new Font("Arial", Font.BOLD, 75));
         FontMetrics metrics = g.getFontMetrics(g.getFont());
-        g.drawString("Game Over", (gp.GAMEWIDTH - metrics.stringWidth("Game Over")) / 2, gp.GAMEHEIGHT / 2);
+        g.drawString("Game Over", ((int)gp.screenSize.getWidth() - metrics.stringWidth("Game Over")) / 2, (int)gp.screenSize.getHeight() / 2);
         g.drawString("Score: " + snake.appleEaten,
-                (gp.GAMEWIDTH - metrics.stringWidth("Score: " + snake.appleEaten)) / 2,
-                gp.GAMEHEIGHT / 4);
+                ((int)gp.screenSize.getWidth() - metrics.stringWidth("Score: " + snake.appleEaten)) / 2,
+                (int)gp.screenSize.getHeight() / 4);
     }
 
     public void drawPauseScreen(Graphics g) {
         g.setColor(Color.RED);
         g.setFont(new Font("Arial", Font.BOLD, 75));
         FontMetrics metrics = g.getFontMetrics(g.getFont());
-        g.drawString("PAUSED", (gp.GAMEWIDTH - metrics.stringWidth("PAUSED")) / 2, gp.GAMEHEIGHT / 2);
+        g.drawString("PAUSED", ((int)gp.screenSize.getWidth() - metrics.stringWidth("PAUSED")) / 2, (int)gp.screenSize.getHeight() / 2);
     }
 
     public void drawTitleScreen(Graphics g) {
@@ -73,5 +73,10 @@ public class UI {
         if (commandNum == 2) {
             g.drawString(">", (gp.GAMEWIDTH - metrics.stringWidth(">")) / 2 - gp.TILESIZE * 5, gp.GAMEHEIGHT / 2);
         }
+    }
+
+    public void drawLevel(Graphics g) {
+        g.setColor(Color.WHITE);
+        g.drawRect(gp.gameWindowXStart, gp.gameWindowYStart, gp.GAMEWIDTH, gp.GAMEHEIGHT);
     }
 }

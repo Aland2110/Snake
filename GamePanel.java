@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Toolkit;
 import java.util.Random;
 import javax.swing.JPanel;
 
@@ -11,10 +12,11 @@ public class GamePanel extends JPanel implements Runnable {
     public int GAMEHEIGHT;
     public int n;
     public int m;
+    public int gameWindowXStart;
+    public int gameWindowYStart;
 
     // Game running variables
     private int FPS;
-    private boolean gameRunning;
     private double drawInterval;
     private double nextDrawTime;
 
@@ -23,7 +25,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
-
+    public final int gameOver = 3;
+    
     // Musikken
     Sound sound = new Sound();
 
@@ -33,9 +36,11 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     Entity entity = new Entity(this, keyH);
     UI UI = new UI(this, entity);
+    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public GamePanel(int n, int m, int s) {
         this.random = new Random();
+        this.setPreferredSize(screenSize); // spilets størrelse defineres
         this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
@@ -49,17 +54,25 @@ public class GamePanel extends JPanel implements Runnable {
             this.m = m < 5 || m > 100 ? 20 : m;
             this.GAMEWIDTH = TILESIZE * n;
             this.GAMEHEIGHT = TILESIZE * m;
+            this.gameWindowXStart = ((int)screenSize.getWidth()-GAMEWIDTH)/2;
+            this.gameWindowYStart = ((int)screenSize.getHeight()-GAMEHEIGHT)/2;
     
             while (GAMEWIDTH > 1400 || GAMEHEIGHT > 700) {
                 TILESIZE -= 1;
                 this.GAMEWIDTH = TILESIZE * n;
                 this.GAMEHEIGHT = TILESIZE * m;
+                this.gameWindowXStart = ((int)screenSize.getWidth()-GAMEWIDTH)/2;
+                this.gameWindowYStart = ((int)screenSize.getHeight()-GAMEHEIGHT)/2;
             }
-    
-            this.setPreferredSize(new Dimension(GAMEWIDTH, GAMEHEIGHT)); // spilets størrelse defineres
-            this.setMaximumSize(new Dimension(GAMEWIDTH, GAMEHEIGHT));
-            this.setMinimumSize(new Dimension(GAMEWIDTH, GAMEHEIGHT));
             this.FPS = 5;
+            while (gameWindowXStart % TILESIZE != 0 || gameWindowYStart % TILESIZE != 0) {
+                if (gameWindowXStart % TILESIZE != 0) {
+                    gameWindowXStart++;
+                } 
+                if (gameWindowYStart % TILESIZE != 0) {
+                    gameWindowYStart++;
+                }
+            }
         }
 
     public void setUpGame() {
@@ -69,9 +82,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     // spillet startes
     public void startGame() {
-        gameRunning = true;
-        settings(n, m);
-        this.drawInterval = 1000000000 / FPS;
         setUpGame();
         entity.getImage();
         gameThread = new Thread(this);
@@ -119,10 +129,11 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (gameRunning) {
+        if (gameState != gameOver) {
             if (gameState != titleState) {
                 entity.draw(g); // Slangen og æblet tegnes
                 UI.drawPlay(g);
+                UI.drawLevel(g);
             } else {
                 UI.drawTitleScreen(g);
             }
@@ -138,13 +149,13 @@ public class GamePanel extends JPanel implements Runnable {
         // Tjekker collision med sig selv
         for (int i = entity.bodyParts; i > 0; i--) {
             if (y[0] == y[i] && x[0] == x[i]) {
-                gameRunning = false;
+                gameState = gameOver;
             }
         }
 
         // Tjekker om slangens hovedet er inden for banen.
-        if (x[0] < 0 || x[0] >= GAMEWIDTH || y[0] < 0 || y[0] >= GAMEHEIGHT) {
-            gameRunning = false;
+        if (x[0] < gameWindowXStart || x[0] >= gameWindowXStart+GAMEWIDTH || y[0] < gameWindowYStart || y[0] >= gameWindowYStart+GAMEHEIGHT) {
+            gameState = gameOver;
         }
     }
 
@@ -170,11 +181,5 @@ public class GamePanel extends JPanel implements Runnable {
     public void PlaySE(int i) {
         sound.setFile(i);
         sound.play();
-    }
-
-    public void screenFit() {
-        while (GAMEWIDTH > 1200 && GAMEHEIGHT > 500) {
-            TILESIZE -= 1;
-        }
     }
 }
