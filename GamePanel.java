@@ -26,7 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 1;
     public final int pauseState = 2;
     public final int gameOver = 3;
-    
+
     // Musikken
     Sound sound = new Sound();
 
@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
     Entity entity = new Entity(this, keyH);
-    UI UI = new UI(this, entity);
+    UI UI = new UI(this);
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public GamePanel(int n, int m, int s) {
@@ -51,33 +51,33 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void settings(int n, int m) {
         this.n = n < 5 || n > 100 ? 20 : n;
-            this.m = m < 5 || m > 100 ? 20 : m;
+        this.m = m < 5 || m > 100 ? 20 : m;
+        this.GAMEWIDTH = TILESIZE * n;
+        this.GAMEHEIGHT = TILESIZE * m;
+        this.gameWindowXStart = ((int) screenSize.getWidth() - GAMEWIDTH) / 2;
+        this.gameWindowYStart = ((int) screenSize.getHeight() - GAMEHEIGHT) / 2;
+
+        while (GAMEWIDTH > (int) screenSize.getWidth() - TILESIZE * 8
+                || GAMEHEIGHT > (int) screenSize.getHeight() - TILESIZE * 6) {
+            TILESIZE -= 1;
             this.GAMEWIDTH = TILESIZE * n;
             this.GAMEHEIGHT = TILESIZE * m;
-            this.gameWindowXStart = ((int)screenSize.getWidth()-GAMEWIDTH)/2;
-            this.gameWindowYStart = ((int)screenSize.getHeight()-GAMEHEIGHT)/2;
-    
-            while (GAMEWIDTH > (int)screenSize.getWidth() - TILESIZE*8 || GAMEHEIGHT > (int)screenSize.getHeight()-TILESIZE*6) {
-                TILESIZE -= 1;
-                this.GAMEWIDTH = TILESIZE * n;
-                this.GAMEHEIGHT = TILESIZE * m;
-                this.gameWindowXStart = ((int)screenSize.getWidth()-GAMEWIDTH)/2;
-                this.gameWindowYStart = ((int)screenSize.getHeight()-GAMEHEIGHT)/2;
+            this.gameWindowXStart = ((int) screenSize.getWidth() - GAMEWIDTH) / 2;
+            this.gameWindowYStart = ((int) screenSize.getHeight() - GAMEHEIGHT) / 2;
+        }
+        this.FPS = 5;
+        while (gameWindowXStart % TILESIZE != 0 || gameWindowYStart % TILESIZE != 0) {
+            if (gameWindowXStart % TILESIZE != 0) {
+                gameWindowXStart++;
             }
-            this.FPS = 5;
-            while (gameWindowXStart % TILESIZE != 0 || gameWindowYStart % TILESIZE != 0) {
-                if (gameWindowXStart % TILESIZE != 0) {
-                    gameWindowXStart++;
-                } 
-                if (gameWindowYStart % TILESIZE != 0) {
-                    gameWindowYStart++;
-                }
+            if (gameWindowYStart % TILESIZE != 0) {
+                gameWindowYStart++;
             }
         }
+    }
 
     public void setUpGame() {
         entity.snakePos();
-        // PlayMusic(0);
     }
 
     // spillet startes
@@ -129,16 +129,14 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        if (gameState != gameOver) {
-            if (gameState != titleState) {
-                UI.drawScore(g);
-                entity.draw(g); // Slangen og æblet tegnes
-                UI.drawPlay(g);
-                UI.drawLevel(g);
-            } else {
-                UI.drawTitleScreen(g);
-            }
-        } else {
+        if (gameState == playState || gameState == pauseState) {
+            UI.drawScore(g);
+            entity.draw(g); // Slangen og æblet tegnes
+            UI.drawPlay(g);
+            UI.drawLevel(g);
+        } else if (gameState == titleState) {
+            UI.drawTitleScreen(g);
+        } else if (gameState == gameOver) {
             UI.drawGameOver(g);
         }
     }
@@ -155,7 +153,8 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         // Tjekker om slangens hovedet er inden for banen.
-        if (x[0] < gameWindowXStart || x[0] >= gameWindowXStart+GAMEWIDTH || y[0] < gameWindowYStart || y[0] >= gameWindowYStart+GAMEHEIGHT) {
+        if (x[0] < gameWindowXStart || x[0] >= gameWindowXStart + GAMEWIDTH || y[0] < gameWindowYStart
+                || y[0] >= gameWindowYStart + GAMEHEIGHT) {
             gameState = gameOver;
         }
     }

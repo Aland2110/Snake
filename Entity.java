@@ -34,8 +34,8 @@ public class Entity {
         this.lastDir = 'D';
 
         for (int i = 0; i < bodyParts; i++) {
-            x[i] = (gp.n / 2 - i) * gp.TILESIZE;
-            y[i] = gp.m / 2 * gp.TILESIZE;
+            x[i] = (gp.n / 2 - i) * gp.TILESIZE + gp.gameWindowXStart;
+            y[i] = gp.m / 2 * gp.TILESIZE + gp.gameWindowYStart;
         }
     }
 
@@ -257,12 +257,10 @@ public class Entity {
     }
 
     public void appleEat() {
-        Sound sound = new Sound();
         if (y[0] == appleY && x[0] == appleX) {
             bodyParts++;
             appleEaten++;
             createApple();
-            gp.PlaySE(1);
         }
     }
 
@@ -280,20 +278,5 @@ public class Entity {
 
         appleX = tempX;
         appleY = tempY;
-    }
-    public void PlayMusic(int i) {
-
-        gp.sound.setFile(i);
-        gp.sound.play();
-        gp.sound.loop();
-    }
-
-    public void stopMusic() {
-        gp.sound.stop();
-    }
-
-    public void PlaySE(int i) {
-        gp.sound.setFile(i);
-        gp.sound.play();
     }
 }

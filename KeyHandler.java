@@ -37,6 +37,7 @@ public class KeyHandler implements KeyListener {
                     if (gp.UI.commandNum == 0) {
                         gp.setGameState(1);
                         gp.startGame();
+                        gp.PlayMusic(0);
                     }
                     if (gp.UI.commandNum == 1) {
                         //Later

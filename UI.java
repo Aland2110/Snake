@@ -5,13 +5,10 @@ import java.awt.Graphics;
 
 public class UI {
     GamePanel gp;
-    Entity snake;
     public int commandNum = 0;
-    private int menuBut = 4;
 
-    public UI(GamePanel gp, Entity snake) {
+    public UI(GamePanel gp) {
         this.gp = gp;
-        this.snake = snake;
     }
 
     public void drawPlay(Graphics g) {
@@ -21,62 +18,47 @@ public class UI {
     }
 
     public void drawScore(Graphics g) {
-        g.setColor(Color.RED);
-        g.setFont(new Font("Arial", Font.BOLD, 50));
-        FontMetrics metrics = g.getFontMetrics(g.getFont());
-        g.drawString("Score: " + snake.appleEaten,
-                (gp.GAMEWIDTH - metrics.stringWidth("Score: " + snake.appleEaten)) / 2,
-                gp.TILESIZE);
+        drawText(g, Color.RED, 50, "Score: " + gp.entity.appleEaten, 2 * gp.TILESIZE);
     }
 
     public void drawGameOver(Graphics g) {
-        g.setColor(Color.RED);
-        g.setFont(new Font("Arial", Font.BOLD, 75));
-        FontMetrics metrics = g.getFontMetrics(g.getFont());
-        g.drawString("Game Over", ((int)gp.screenSize.getWidth() - metrics.stringWidth("Game Over")) / 2, (int)gp.screenSize.getHeight() / 2);
-        g.drawString("Score: " + snake.appleEaten,
-                ((int)gp.screenSize.getWidth() - metrics.stringWidth("Score: " + snake.appleEaten)) / 2,
-                (int)gp.screenSize.getHeight() / 4);
+        drawText(g, Color.RED, 75, "Game Over", (int) gp.screenSize.getHeight() / 2);
+        drawText(g, Color.RED, 75, "Score: " + gp.entity.appleEaten, gp.TILESIZE * 4);
     }
 
     public void drawPauseScreen(Graphics g) {
-        g.setColor(Color.RED);
-        g.setFont(new Font("Arial", Font.BOLD, 75));
-        FontMetrics metrics = g.getFontMetrics(g.getFont());
-        g.drawString("PAUSED", ((int)gp.screenSize.getWidth() - metrics.stringWidth("PAUSED")) / 2, (int)gp.screenSize.getHeight() / 2);
+        drawText(g, Color.RED, 75, "PAUSED", (int) gp.screenSize.getHeight() / 2);
     }
 
     public void drawTitleScreen(Graphics g) {
         // start spil
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 45));
-        FontMetrics metrics = g.getFontMetrics(g.getFont());
-        g.drawString("Start game", (gp.GAMEWIDTH - metrics.stringWidth("Start game")) / 2, gp.GAMEHEIGHT / 2 - menuBut * 2 * gp.TILESIZE);
+        drawText(g, Color.WHITE, 45, "Start game", 2 * gp.TILESIZE);
         if (commandNum == 0) {
-            g.drawString(">", (gp.GAMEWIDTH - metrics.stringWidth(">")) / 2 - gp.TILESIZE * 5, gp.GAMEHEIGHT / 2 - menuBut * 2 * gp.TILESIZE);
+            g.drawString(">", gp.GAMEWIDTH / 2 - gp.TILESIZE * 5, 2 * gp.TILESIZE);
         }
 
         // indstillinger
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 45));
-        metrics = g.getFontMetrics(g.getFont());
-        g.drawString("Settings", (gp.GAMEWIDTH - metrics.stringWidth("Settings")) / 2, gp.GAMEHEIGHT / 2 - menuBut * gp.TILESIZE);
+        drawText(g, Color.WHITE, 45, "Settings", 4 * gp.TILESIZE);
         if (commandNum == 1) {
-            g.drawString(">", (gp.GAMEWIDTH - metrics.stringWidth(">")) / 2 - gp.TILESIZE * 5, gp.GAMEHEIGHT / 2 - menuBut*gp.TILESIZE);
+            g.drawString(">", gp.GAMEWIDTH / 2 - gp.TILESIZE * 5, 4 * gp.TILESIZE);
         }
 
         // afslut spil
-        g.setColor(Color.WHITE);
-        g.setFont(new Font("Arial", Font.BOLD, 45));
-        metrics = g.getFontMetrics(g.getFont());
-        g.drawString("Quit", (gp.GAMEWIDTH - metrics.stringWidth("Quit")) / 2, gp.GAMEHEIGHT / 2);
+        drawText(g, Color.WHITE, 45, "Quit", 6 * gp.TILESIZE);
         if (commandNum == 2) {
-            g.drawString(">", (gp.GAMEWIDTH - metrics.stringWidth(">")) / 2 - gp.TILESIZE * 5, gp.GAMEHEIGHT / 2);
+            g.drawString(">", gp.GAMEWIDTH / 2 - gp.TILESIZE * 5, 6 * gp.TILESIZE);
         }
     }
 
     public void drawLevel(Graphics g) {
         g.setColor(Color.WHITE);
         g.drawRect(gp.gameWindowXStart, gp.gameWindowYStart, gp.GAMEWIDTH, gp.GAMEHEIGHT);
+    }
+
+    public void drawText(Graphics g, Color c, int fontSize, String text, int y) {
+        g.setColor(c);
+        g.setFont(new Font("Arial", Font.BOLD, fontSize));
+        FontMetrics metrics = g.getFontMetrics(g.getFont());
+        g.drawString(text, ((int) gp.screenSize.getWidth() - metrics.stringWidth(text)) / 2, y);
     }
 }
