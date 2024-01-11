@@ -46,7 +46,6 @@ public class KeyHandler implements KeyListener {
                             System.exit(0);
                         }
                     } else if (gp.getGameState() == gp.pauseState) {
-                        gp.stopMusic();
                         if (gp.UI.commandNum == 0) {
                             gp.setGameState(gp.playState);
                             gp.playMusic(0);
@@ -56,7 +55,6 @@ public class KeyHandler implements KeyListener {
                             System.exit(0);
                         }
                     } else if (gp.getGameState() == gp.gameOverState) {
-                        gp.stopMusic();
                         if (gp.UI.commandNum == 0) {
                             gp.setGameState(gp.playState);
                             gp.startGame();
@@ -88,9 +86,11 @@ public class KeyHandler implements KeyListener {
                     break;
                 case KeyEvent.VK_ESCAPE:
                     if (gp.getGameState() == gp.playState) {
+                        gp.stopMusic(0);
                         gp.setGameState(gp.pauseState);
                         break;
                     } else if (gp.getGameState() == gp.pauseState) {
+                        gp.playMusic(0);
                         gp.setGameState(gp.playState);
                         break;
                     }

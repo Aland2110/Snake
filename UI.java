@@ -103,18 +103,19 @@ public class UI {
         
         getImage();
 
-        int scale = gp.n < 10 || gp.m < 10 ? 5 : 10;
-        int numX = gp.n / scale;
-        int numY = gp.m / scale;
+        int scaleX = gp.n;
+        int scaleY = gp.m;
+        int numX = gp.n / scaleX;
+        int numY = gp.m / scaleY;
         int x = gp.gameWindowXStart;
         int y = gp.gameWindowYStart;
 
         for (int i = 0; i < numY; i++) {
             for (int j = 0; j < numX; j++) {
-                g.drawImage(grass, x, y, gp.TILESIZE * scale, gp.TILESIZE * scale, null);
-                x += gp.TILESIZE * scale;
+                g.drawImage(grass, x, y, gp.TILESIZE * scaleX, gp.TILESIZE * scaleY, null);
+                x += gp.TILESIZE * scaleX;
             }
-            y += gp.TILESIZE * scale;
+            y += gp.TILESIZE * scaleY;
             x = gp.gameWindowXStart;
         }
 

@@ -130,7 +130,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState != playState) {
             FPS = 60;
         } else {
-            FPS = 1;
+            FPS = 10;
         }
     }
 
@@ -146,6 +146,7 @@ public class GamePanel extends JPanel implements Runnable {
         } else if (gameState == titleState) {
             UI.drawTitleScreen(g);
         } else if (gameState == gameOverState) {
+            stopMusic(0);
             UI.drawGameOver(g);
         }
     }
@@ -180,16 +181,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void playMusic(int i) {
         sound.setFile(i);
-        sound.play();
-        sound.loop();
+        sound.play(i);
+        sound.loop(i);
     }
 
-    public void stopMusic() {
-        sound.stop();
+    public void stopMusic(int i) {
+        sound.stop(i);
     }
 
     public void PlaySE(int i) {
         sound.setFile(i);
-        sound.play();
+        sound.play(i);
     }
 }

@@ -6,7 +6,7 @@ import javax.sound.sampled.FloatControl;
 
 public class Sound {
 
-        Clip clip;
+        Clip[] clip = new Clip[30];
         URL soundURL[] = new URL[30];
         FloatControl control;
 
@@ -18,28 +18,28 @@ public class Sound {
         public void setFile(int i) {
                 try {
                         AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
-                        clip = AudioSystem.getClip();
-                        clip.open(ais);
-                        volume(0);
+                        clip[i] = AudioSystem.getClip();
+                        clip[i].open(ais);
+                        volume(-30, i);
                 } catch (Exception e) {
                         e.printStackTrace();
                 }
         }
 
-        public void play() {
-                clip.start();
+        public void play(int i) {
+                clip[i].start();
         }
 
-        public void loop() {
-                clip.loop(Clip.LOOP_CONTINUOUSLY);
+        public void loop(int i) {
+                clip[i].loop(Clip.LOOP_CONTINUOUSLY);
         }
 
-        public void stop() {
-                clip.stop();
+        public void stop(int i) {
+                clip[i].stop();
         }
 
-        public void volume(float v) {
-                control = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
+        public void volume(float v, int i) {
+                control = (FloatControl) clip[i].getControl(FloatControl.Type.MASTER_GAIN);
                 control.setValue(v);
         }
 }
