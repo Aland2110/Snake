@@ -20,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable {
     private double drawInterval;
     private double nextDrawTime;
 
-    // Game State
+    // Game States
     private int gameState;
     public final int titleState = 0;
     public final int playState = 1;
@@ -76,13 +76,16 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void startGameThread() {
+        gameThread = new Thread(this);
+        gameThread.start();
+    }
+
     // spillet startes
     public void startGame() {
         entity.applesEaten = 0; 
         entity.snakePos();
         entity.getImage();
-        gameThread = new Thread(this);
-        gameThread.start();
         entity.createApple();
     }
 
