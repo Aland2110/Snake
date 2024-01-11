@@ -6,7 +6,7 @@ import javax.sound.sampled.FloatControl;
 
 public class Sound {
 
-        Clip[] clip = new Clip[30];
+        Clip clip[] = new Clip[2];
         URL soundURL[] = new URL[30];
         FloatControl control;
 
