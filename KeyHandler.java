@@ -40,29 +40,38 @@ public class KeyHandler implements KeyListener {
                             gp.setGameState(gp.playState);
                             gp.startGame();
                             gp.playMusic(0);
+                            gp.UI.commandNum = 0;
                         } else if (gp.UI.commandNum == 1) {
-                            // Later
+                            gp.setGameState(gp.settingState);
+                            gp.UI.commandNum = 0;
                         } else if (gp.UI.commandNum == 2) {
                             System.exit(0);
+                            gp.UI.commandNum = 0;
                         }
                     } else if (gp.getGameState() == gp.pauseState) {
                         if (gp.UI.commandNum == 0) {
                             gp.setGameState(gp.playState);
                             gp.playMusic(0);
+                            gp.UI.commandNum = 0;
                         } else if (gp.UI.commandNum == 1) {
                             gp.setGameState(gp.titleState);
+                            gp.UI.commandNum = 0;
                         } else if (gp.UI.commandNum == 2) {
                             System.exit(0);
+                            gp.UI.commandNum = 0;
                         }
                     } else if (gp.getGameState() == gp.gameOverState) {
                         if (gp.UI.commandNum == 0) {
                             gp.setGameState(gp.playState);
                             gp.startGame();
                             gp.playMusic(0);
+                            gp.UI.commandNum = 0;
                         } else if (gp.UI.commandNum == 1) {
                             gp.setGameState(gp.titleState);
+                            gp.UI.commandNum = 0;
                         } else if (gp.UI.commandNum == 2) {
                             System.exit(0);
+                            gp.UI.commandNum = 0;
                         }
                     }
                     break;
@@ -96,6 +105,44 @@ public class KeyHandler implements KeyListener {
 
             }
         }
+
+        // behandler kontrol i indstillinger
+        if (gp.getGameState() == gp.settingState) {
+            switch (code) {
+                case KeyEvent.VK_W:
+                    gp.UI.settingCommandNum--;
+                    if (gp.UI.settingCommandNum < 0) {
+                        gp.UI.settingCommandNum = 3;
+                    }
+                    break;
+                case KeyEvent.VK_S:
+                    gp.UI.settingCommandNum++;
+                    if (gp.UI.settingCommandNum > 3) {
+                        gp.UI.settingCommandNum = 0;
+                    }
+                    break;
+                case KeyEvent.VK_A:
+                    if (gp.UI.settingCommandNum == 0) {
+                        gp.setGameSize(false, gp.UI.settingCommandNum);
+                    } else if (gp.UI.settingCommandNum == 1) {
+                        gp.setGameSize(false, gp.UI.settingCommandNum);
+                    }
+                    break;
+                case KeyEvent.VK_D:
+                    if (gp.UI.settingCommandNum == 0) {
+                        gp.setGameSize(true, gp.UI.settingCommandNum);
+                    } else if (gp.UI.settingCommandNum == 1) {
+                        gp.setGameSize(true, gp.UI.settingCommandNum);
+                    }
+                    break;
+                case KeyEvent.VK_ENTER:
+                    if (gp.UI.settingCommandNum == 3) {
+                        gp.setGameState(gp.titleState);
+                        gp.UI.settingCommandNum = 0;
+                    }
+                    break;
+            }
+        }
     }
 
     @Override
@@ -106,5 +153,4 @@ public class KeyHandler implements KeyListener {
     public char getDir() {
         return direction;
     }
-
 }

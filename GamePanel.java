@@ -10,8 +10,8 @@ public class GamePanel extends JPanel implements Runnable {
     public int TILESIZE = 100;
     public int GAMEWIDTH;
     public int GAMEHEIGHT;
-    public int n;
-    public int m;
+    public int n = 20;
+    public int m = 20;
     public int gameWindowXStart;
     public int gameWindowYStart;
 
@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 1;
     public final int pauseState = 2;
     public final int gameOverState = 3;
+    public final int settingState = 4;
 
     // Musikken
     Sound sound = new Sound();
@@ -46,12 +47,9 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
         this.gameState = s;
-        settings(n, m);
     }
 
-    public void settings(int n, int m) {
-        this.n = n < 5 || n > 100 ? 20 : n;
-        this.m = m < 5 || m > 100 ? 20 : m;
+    public void settings() {
         this.GAMEWIDTH = TILESIZE * n;
         this.GAMEHEIGHT = TILESIZE * m;
         this.gameWindowXStart = ((int) screenSize.getWidth() - GAMEWIDTH) / 2;
@@ -82,6 +80,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // spillet startes
     public void startGame() {
+        settings();
         entity.applesEaten = 0;
         entity.snakePos();
         entity.getImage();
@@ -143,11 +142,16 @@ public class GamePanel extends JPanel implements Runnable {
             UI.drawScore(g);
             entity.draw(g); // Slangen og æblet tegnes
             UI.drawPause(g);
-        } else if (gameState == titleState) {
+        }
+        if (gameState == titleState) {
             UI.drawTitleScreen(g);
-        } else if (gameState == gameOverState) {
+        }
+        if (gameState == gameOverState) {
             stopMusic(0);
             UI.drawGameOver(g);
+        }
+        if (gameState == settingState) {
+            UI.drawSettingScreen(g);
         }
     }
 
@@ -177,6 +181,22 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void setGameState(int n) {
         gameState = n;
+    }
+
+    public void setGameSize(boolean b, int settingCommandNum) {
+        if (settingCommandNum == 0) {
+            if (b) {
+                n += 2;
+            } else {
+                n -= 2;
+            }
+        } else if (settingCommandNum == 1) {
+            if (b) {
+                m += 2;
+            } else {
+                m -= 2;
+            }
+        }
     }
 
     public void playMusic(int i) {
