@@ -10,7 +10,7 @@ public class UI {
     GamePanel gp;
     BufferedImage grass;
     public int commandNum = 0;
-    private int tile = 40;
+    private int tile;
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -23,10 +23,12 @@ public class UI {
     }
 
     public void drawScore(Graphics g) {
+        this.tile = (int) gp.screenSize.getHeight() / 27;
         drawText(g, Color.RED, 50, "Score: " + gp.entity.applesEaten, 2 * tile);
     }
 
     public void drawGameOver(Graphics g) {
+        this.tile = (int) gp.screenSize.getHeight() / 27;
         // game over
         drawText(g, Color.WHITE, 75, "Game Over", tile * 10);
 
@@ -53,6 +55,7 @@ public class UI {
     }
 
     public void drawPauseScreen(Graphics g) {
+        this.tile = (int) gp.screenSize.getHeight() / 27;
         // pause
         drawText(g, Color.WHITE, 75, "PAUSED", tile * 10);
 
@@ -76,6 +79,7 @@ public class UI {
     }
 
     public void drawTitleScreen(Graphics g) {
+        this.tile = (int) gp.screenSize.getHeight() / 27;
         // spillets titel
         drawText(g, Color.WHITE, 110, "Snake", 10 * tile);
 
@@ -105,13 +109,13 @@ public class UI {
 
         int scaleX = gp.n;
         int scaleY = gp.m;
-        int numX = gp.n / scaleX;
-        int numY = gp.m / scaleY;
+        double numX = Math.ceil(gp.n / scaleX);
+        double numY = Math.ceil(gp.m / scaleY);
         int x = gp.gameWindowXStart;
         int y = gp.gameWindowYStart;
 
-        for (int i = 0; i < numY; i++) {
-            for (int j = 0; j < numX; j++) {
+        for (int i = 0; i < (int) numY; i++) {
+            for (int j = 0; j < (int) numX; j++) {
                 g.drawImage(grass, x, y, gp.TILESIZE * scaleX, gp.TILESIZE * scaleY, null);
                 x += gp.TILESIZE * scaleX;
             }

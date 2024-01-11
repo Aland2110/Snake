@@ -202,28 +202,28 @@ public class Entity {
             BufferedImage bodyImage = null;
             // Kommer fra venstre side og går op
             if (x[i] > x[i + 1] && y[i] > y[i - 1]) {
-                bodyImage = HjørnestykkeV;
+                bodyImage = Hjørnestykke;
             } // Kommer fra venstre side og går ned
             else if (x[i] > x[i + 1] && y[i] < y[i - 1]) {
-                bodyImage = Hjørnestykke; 
-            }  // Kommer fra venstre side og går op
-            else if (x[i] > x[i - 1] && y[i] > y[i + 1]) {
-                bodyImage = HjørnestykkeV;
-            } // Kommer fra højre side og går ned
-            else if (x[i] < x[i + 1] && y[i] < y[i - 1]) {
                 bodyImage = HjørnestykkeN;
             } // Kommer fra højre side og går op
             else if (x[i] < x[i + 1] && y[i] > y[i - 1]) {
                 bodyImage = HjørnestykkeH;
+            } // Kommer fra højre side og går ned
+            else if (x[i] < x[i + 1] && y[i] < y[i - 1]) {
+                bodyImage = HjørnestykkeV;
             } // Kommer oppe fra og går til højre
             else if (x[i] < x[i - 1] && y[i] > y[i + 1]) {
                 bodyImage = HjørnestykkeH;
+            } // Kommer oppe fra og går til venstre
+            else if (x[i] > x[i - 1] && y[i] > y[i + 1]) {
+                bodyImage = Hjørnestykke;
             } // Kommer nede fra og går til højre
             else if (x[i] < x[i - 1] && y[i] < y[i + 1]) {
-                bodyImage = HjørnestykkeN;
-            } // Kommer nede fra og går til venstre 
+                bodyImage = HjørnestykkeV;
+            } // Kommer nede fra og går til venstre
             else if (x[i] > x[i - 1] && y[i] < y[i + 1]) {
-                bodyImage = Hjørnestykke;
+                bodyImage = HjørnestykkeN;
             } // Kroppen vandret
             else if (x[i] < x[i - 1] || x[i] > x[i - 1]) {
                 bodyImage = KropH;

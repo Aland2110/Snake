@@ -130,7 +130,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (gameState != playState) {
             FPS = 60;
         } else {
-            FPS = 10;
+            FPS = 5;
         }
     }
 
