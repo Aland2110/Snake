@@ -16,7 +16,7 @@ public class GamePanel extends JPanel implements Runnable {
     public int gameWindowYStart;
 
     // Game running variables
-    private int FPS;
+    private int FPS = 60;
     private double drawInterval;
     private double nextDrawTime;
 
@@ -41,7 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
     public GamePanel(int n, int m, int s) {
         this.random = new Random();
         this.setPreferredSize(screenSize); // spilets størrelse defineres
-        this.setBackground(Color.BLACK);
+        this.setBackground(Color.PINK);
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
@@ -65,7 +65,6 @@ public class GamePanel extends JPanel implements Runnable {
             this.gameWindowXStart = ((int) screenSize.getWidth() - GAMEWIDTH) / 2;
             this.gameWindowYStart = ((int) screenSize.getHeight() - GAMEHEIGHT) / 2;
         }
-        this.FPS = 5;
         while (gameWindowXStart % TILESIZE != 0 || gameWindowYStart % TILESIZE != 0) {
             if (gameWindowXStart % TILESIZE != 0) {
                 gameWindowXStart++;
@@ -83,7 +82,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     // spillet startes
     public void startGame() {
-        entity.applesEaten = 0; 
+        entity.applesEaten = 0;
         entity.snakePos();
         entity.getImage();
         entity.createApple();
@@ -91,11 +90,13 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        this.drawInterval = 1000000000 / FPS;
-        this.nextDrawTime = System.nanoTime() + drawInterval;
 
         // mens spillet kører, opdateres og tegnes vinduet
         while (gameThread != null) {
+            updateFPS();
+            this.drawInterval = 1000000000 / FPS;
+            this.nextDrawTime = System.nanoTime() + drawInterval;
+
             update();
             repaint(); // kalder metoden paintComponent
 
@@ -125,15 +126,23 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void updateFPS() {
+        if (gameState != playState) {
+            FPS = 60;
+        } else {
+            FPS = 1;
+        }
+    }
+
     // paintComponent er en indbygget metode i JPanel
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         if (gameState == playState || gameState == pauseState) {
+            UI.drawLevel(g);
             UI.drawScore(g);
             entity.draw(g); // Slangen og æblet tegnes
             UI.drawPause(g);
-            UI.drawLevel(g);
         } else if (gameState == titleState) {
             UI.drawTitleScreen(g);
         } else if (gameState == gameOverState) {
@@ -169,8 +178,7 @@ public class GamePanel extends JPanel implements Runnable {
         gameState = n;
     }
 
-    public void PlayMusic(int i) {
-
+    public void playMusic(int i) {
         sound.setFile(i);
         sound.play();
         sound.loop();

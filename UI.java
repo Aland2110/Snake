@@ -2,12 +2,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+
+import javax.imageio.ImageIO;
 
 public class UI {
     GamePanel gp;
-    public int titleCommandNum = 0;
-    public int gameOverCommandNum = 0;
-    public int pauseCommandNum = 0;
+    BufferedImage grass;
+    public int commandNum = 0;
     private int tile = 40;
 
     public UI(GamePanel gp) {
@@ -33,20 +35,20 @@ public class UI {
 
         // prøv igen
         drawText(g, Color.WHITE, 45, "Try again", tile * 16);
-        if (gameOverCommandNum == 0) {
-            g.drawString(">", gp.GAMEWIDTH / 2 + tile * 15, 16 * tile);
+        if (commandNum == 0) {
+            g.drawString(">",(int) gp.screenSize.getWidth() / 2 - 4 * tile, 16 * tile);
         }
 
         // tilbage til menuen
         drawText(g, Color.WHITE, 45, "Back to menu", 18 * tile);
-        if (gameOverCommandNum == 1) {
-            g.drawString(">", gp.GAMEWIDTH / 2 + tile * 14, 18 * tile);
+        if (commandNum == 1) {
+            g.drawString(">",(int) gp.screenSize.getWidth() / 2 - 5 * tile, 18 * tile);
         }
-        
+
         // afslut spil
         drawText(g, Color.WHITE, 45, "Quit", 20 * tile);
-        if (gameOverCommandNum == 2) {
-            g.drawString(">", gp.GAMEWIDTH / 2 + tile * 16, 20 * tile);
+        if (commandNum == 2) {
+            g.drawString(">",(int) gp.screenSize.getWidth() / 2 - 2 * tile, 20 * tile);
         }
     }
 
@@ -56,20 +58,20 @@ public class UI {
 
         // fortsæt med at spille
         drawText(g, Color.WHITE, 45, "Continue", tile * 13);
-        if (pauseCommandNum == 0) {
-            g.drawString(">", gp.GAMEWIDTH / 2 + tile * 15, 13 * tile);
+        if (commandNum == 0) {
+            g.drawString(">",(int) gp.screenSize.getWidth() / 2 - 4 * tile, 13 * tile);
         }
 
         // tilbage til menuen
-        drawText(g, Color.WHITE, 45, "Back to menu", 15 * tile); 
-        if (pauseCommandNum == 1) {
-            g.drawString(">", gp.GAMEWIDTH / 2 + tile * 13, 15 * tile);
+        drawText(g, Color.WHITE, 45, "Back to menu", 15 * tile);
+        if (commandNum == 1) {
+            g.drawString(">",(int) gp.screenSize.getWidth() / 2 - 5 * tile, 15 * tile);
         }
 
         // luk spil
-        drawText(g, Color.WHITE, 45, "Quit", 17 * tile); 
-        if (pauseCommandNum == 2) {
-            g.drawString(">", gp.GAMEWIDTH / 2 + tile * 16, 17 * tile);
+        drawText(g, Color.WHITE, 45, "Quit", 17 * tile);
+        if (commandNum == 2) {
+            g.drawString(">",(int) gp.screenSize.getWidth() / 2 - 2 * tile, 17 * tile);
         }
     }
 
@@ -79,31 +81,57 @@ public class UI {
 
         // start spil
         drawText(g, Color.WHITE, 45, "Start game", 15 * tile);
-        if (titleCommandNum == 0) {
-            g.drawString(">", gp.GAMEWIDTH / 2 + tile * 14, 15 * tile);
+        if (commandNum == 0) {
+            g.drawString(">",(int) gp.screenSize.getWidth() / 2 - 5 * tile, 15 * tile);
         }
 
         // indstillinger
         drawText(g, Color.WHITE, 45, "Settings", 17 * tile);
-        if (titleCommandNum == 1) {
-            g.drawString(">", gp.GAMEWIDTH / 2 + tile * 15, 17 * tile);
+        if (commandNum == 1) {
+            g.drawString(">",(int) gp.screenSize.getWidth() / 2 - 4 * tile, 17 * tile);
         }
 
         // afslut spil
         drawText(g, Color.WHITE, 45, "Quit", 19 * tile);
-        if (titleCommandNum == 2) {
-            g.drawString(">", gp.GAMEWIDTH / 2 + tile * 16, 19 * tile);
+        if (commandNum == 2) {
+            g.drawString(">",(int) gp.screenSize.getWidth() / 2 - 2 * tile, 19 * tile);
         }
     }
 
     public void drawLevel(Graphics g) {
         g.setColor(Color.WHITE);
+        
+        getImage();
+
+        int scale = gp.n < 10 || gp.m < 10 ? 5 : 10;
+        int numX = gp.n / scale;
+        int numY = gp.m / scale;
+        int x = gp.gameWindowXStart;
+        int y = gp.gameWindowYStart;
+
+        for (int i = 0; i < numY; i++) {
+            for (int j = 0; j < numX; j++) {
+                g.drawImage(grass, x, y, gp.TILESIZE * scale, gp.TILESIZE * scale, null);
+                x += gp.TILESIZE * scale;
+            }
+            y += gp.TILESIZE * scale;
+            x = gp.gameWindowXStart;
+        }
+
         g.drawRect(gp.gameWindowXStart, gp.gameWindowYStart, gp.GAMEWIDTH, gp.GAMEHEIGHT);
+    }
+
+    public void getImage() {
+        try {
+            grass = ImageIO.read(getClass().getResourceAsStream("/res/grass.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void drawText(Graphics g, Color c, int fontSize, String text, int y) {
         g.setColor(c);
-        g.setFont(new Font("Arial", Font.BOLD, fontSize));
+        g.setFont(new Font("Algerian", Font.BOLD, fontSize));
         FontMetrics metrics = g.getFontMetrics(g.getFont());
         g.drawString(text, ((int) gp.screenSize.getWidth() - metrics.stringWidth(text)) / 2, y);
     }

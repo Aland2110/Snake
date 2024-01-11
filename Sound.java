@@ -12,7 +12,7 @@ public class Sound {
 
         public Sound() {
                 soundURL[0] = getClass().getResource("res\\musik\\mario_musik.wav");
-                soundURL[1] = getClass().getResource("res\\musik\\Eating sound effect LUCAS ARPON TV.wav");
+                soundURL[1] = getClass().getResource("res\\musik\\eatingSE.wav");
         }
 
         public void setFile(int i) {
@@ -22,7 +22,7 @@ public class Sound {
                         clip.open(ais);
                         volume(0);
                 } catch (Exception e) {
-
+                        e.printStackTrace();
                 }
         }
 

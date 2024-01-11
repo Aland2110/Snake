@@ -2,7 +2,7 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-        game(20, 20);
+        game(5, 5);
     }
 
     public static void game(int n, int m) {

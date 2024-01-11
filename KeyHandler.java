@@ -19,33 +19,59 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (gp.getGameState() == gp.titleState) {
+        // behandler menurelateret kontrol
+        if (gp.getGameState() != gp.playState) {
             switch (code) {
                 case KeyEvent.VK_W:
-                    gp.UI.titleCommandNum--;
-                    if (gp.UI.titleCommandNum < 0) {
-                        gp.UI.titleCommandNum = 2;
+                    gp.UI.commandNum--;
+                    if (gp.UI.commandNum < 0) {
+                        gp.UI.commandNum = 2;
                     }
                     break;
                 case KeyEvent.VK_S:
-                    gp.UI.titleCommandNum++;
-                    if (gp.UI.titleCommandNum > 2) {
-                        gp.UI.titleCommandNum = 0;
+                    gp.UI.commandNum++;
+                    if (gp.UI.commandNum > 2) {
+                        gp.UI.commandNum = 0;
                     }
                     break;
                 case KeyEvent.VK_ENTER:
-                    if (gp.UI.titleCommandNum == 0) {
-                        gp.setGameState(gp.playState);
-                        gp.startGame();
-                    } else if (gp.UI.titleCommandNum == 1) {
-                        // Later
-                    } else if (gp.UI.titleCommandNum == 2) {
-                        System.exit(0);
+                    if (gp.getGameState() == gp.titleState) {
+                        if (gp.UI.commandNum == 0) {
+                            gp.setGameState(gp.playState);
+                            gp.startGame();
+                            gp.playMusic(0);
+                        } else if (gp.UI.commandNum == 1) {
+                            // Later
+                        } else if (gp.UI.commandNum == 2) {
+                            System.exit(0);
+                        }
+                    } else if (gp.getGameState() == gp.pauseState) {
+                        gp.stopMusic();
+                        if (gp.UI.commandNum == 0) {
+                            gp.setGameState(gp.playState);
+                            gp.playMusic(0);
+                        } else if (gp.UI.commandNum == 1) {
+                            gp.setGameState(gp.titleState);
+                        } else if (gp.UI.commandNum == 2) {
+                            System.exit(0);
+                        }
+                    } else if (gp.getGameState() == gp.gameOverState) {
+                        gp.stopMusic();
+                        if (gp.UI.commandNum == 0) {
+                            gp.setGameState(gp.playState);
+                            gp.startGame();
+                            gp.playMusic(0);
+                        } else if (gp.UI.commandNum == 1) {
+                            gp.setGameState(gp.titleState);
+                        } else if (gp.UI.commandNum == 2) {
+                            System.exit(0);
+                        }
                     }
                     break;
             }
         }
 
+        // behandler spilrelateret kontrol
         if (gp.getGameState() == gp.playState || gp.getGameState() == gp.pauseState) {
             switch (code) {
                 case KeyEvent.VK_W:
@@ -69,59 +95,6 @@ public class KeyHandler implements KeyListener {
                         break;
                     }
 
-            }
-        }
-
-        if (gp.getGameState() == gp.pauseState) {
-            switch (code) {
-                case KeyEvent.VK_W:
-                    gp.UI.pauseCommandNum--;
-                    if (gp.UI.pauseCommandNum < 0) {
-                        gp.UI.pauseCommandNum = 2;
-                    }
-                    break;
-                case KeyEvent.VK_S:
-                    gp.UI.pauseCommandNum++;
-                    if (gp.UI.pauseCommandNum > 2) {
-                        gp.UI.pauseCommandNum = 0;
-                    }
-                    break;
-                case KeyEvent.VK_ENTER:
-                    if (gp.UI.pauseCommandNum == 0) {
-                        gp.setGameState(gp.playState);
-                    } else if (gp.UI.pauseCommandNum == 1) {
-                        gp.setGameState(gp.titleState);
-                    } else if (gp.UI.pauseCommandNum == 2) {
-                        System.exit(0);
-                    }
-                    break;
-            }
-        }
-
-        if (gp.getGameState() == gp.gameOverState) {
-            switch (code) {
-                case KeyEvent.VK_W:
-                    gp.UI.gameOverCommandNum--;
-                    if (gp.UI.gameOverCommandNum < 0) {
-                        gp.UI.gameOverCommandNum = 2;
-                    }
-                    break;
-                case KeyEvent.VK_S:
-                    gp.UI.gameOverCommandNum++;
-                    if (gp.UI.gameOverCommandNum > 2) {
-                        gp.UI.gameOverCommandNum = 0;
-                    }
-                    break;
-                case KeyEvent.VK_ENTER:
-                    if (gp.UI.gameOverCommandNum == 0) {
-                        gp.setGameState(gp.playState);
-                        gp.startGame();
-                    } else if (gp.UI.gameOverCommandNum == 1) {
-                        gp.setGameState(gp.titleState);
-                    } else if (gp.UI.gameOverCommandNum == 2) {
-                        System.exit(0);
-                    }
-                    break;
             }
         }
     }

@@ -72,7 +72,7 @@ public class Entity {
             HaleV = ImageIO.read(getClass().getResourceAsStream("/res/Hale (V).png"));
             Krop = ImageIO.read(getClass().getResourceAsStream("/res/Krop.png"));
             KropH = ImageIO.read(getClass().getResourceAsStream("/res/Krop (H).png"));
-            Æble = ImageIO.read(getClass().getResourceAsStream("/res/Æble.png"));
+            Æble = ImageIO.read(getClass().getResourceAsStream("/res/apple.png"));
             Hjørnestykke = ImageIO.read(getClass().getResourceAsStream("/res/Hjørnestykke.png"));
             HjørnestykkeV = ImageIO.read(getClass().getResourceAsStream("/res/HjørnestykkeV.png"));
             HjørnestykkeN = ImageIO.read(getClass().getResourceAsStream("/res/HjørnestykkeN.png"));
@@ -259,6 +259,7 @@ public class Entity {
 
     public void appleEat() {
         if (y[0] == appleY && x[0] == appleX) {
+            gp.PlaySE(1);
             bodyParts++;
             applesEaten++;
             createApple();
