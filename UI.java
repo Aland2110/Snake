@@ -2,11 +2,14 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Toolkit;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
@@ -14,6 +17,7 @@ public class UI {
     GamePanel gp;
     BufferedImage grass;
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+    Font pixeBoyFont;
 
     public int commandNum = 0;
     public int settingCommandNum = 0;
@@ -22,6 +26,15 @@ public class UI {
 
     public UI(GamePanel gp) {
         this.gp = gp;
+
+        try {
+            InputStream font = getClass().getResourceAsStream("res/Fonts/Pixeboy-z8XGD.ttf");
+            pixeBoyFont = Font.createFont(Font.TRUETYPE_FONT, font);
+        } catch (FontFormatException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void drawPause(Graphics g) {
@@ -31,7 +44,8 @@ public class UI {
     }
 
     public void drawScore(Graphics g) {
-        drawText(g, Color.decode("#C6372A"), 50, "Score: " + gp.entity.applesEaten, 2 * tile);
+        g.drawImage(gp.entity.Æble, (int) screenSize.getWidth() / 2 - tile * 3, 2 * tile - 20, null);
+        drawText(g, Color.WHITE, 70, "x " + gp.entity.applesEaten, 3 * tile);
     }
 
     public void drawGameOver(Graphics g) {
@@ -43,23 +57,23 @@ public class UI {
 
         // prøv igen
         if (commandNum == 0) {
-            drawText(g, Color.decode("#C6372A"), 45, "Try again", tile * 16);
+            drawText(g, Color.decode("#C6372A"), 60, "Try again", tile * 16);
         } else {
-            drawText(g, Color.WHITE, 45, "Try again", tile * 16);
+            drawText(g, Color.WHITE, 60, "Try again", tile * 16);
         }
 
         // tilbage til menuen
         if (commandNum == 1) {
-            drawText(g, Color.decode("#C6372A"), 45, "Back to menu", 18 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "Back to menu", 18 * tile);
         } else {
-            drawText(g, Color.WHITE, 45, "Back to menu", 18 * tile);
+            drawText(g, Color.WHITE, 60, "Back to menu", 18 * tile);
         }
 
         // afslut spil
         if (commandNum == 2) {
-            drawText(g, Color.decode("#C6372A"), 45, "Quit", 20 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "Quit", 20 * tile);
         } else {
-            drawText(g, Color.WHITE, 45, "Quit", 20 * tile);
+            drawText(g, Color.WHITE, 60, "Quit", 20 * tile);
         }
     }
 
@@ -69,23 +83,23 @@ public class UI {
 
         // fortsæt med at spille
         if (commandNum == 0) {
-            drawText(g, Color.decode("#C6372A"), 45, "Continue", tile * 13);
+            drawText(g, Color.decode("#C6372A"), 60, "Continue", tile * 13);
         } else {
-            drawText(g, Color.WHITE, 45, "Continue", tile * 13);
+            drawText(g, Color.WHITE, 60, "Continue", tile * 13);
         }
 
         // tilbage til menuen
         if (commandNum == 1) {
-            drawText(g, Color.decode("#C6372A"), 45, "Back to menu", 15 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "Back to menu", 15 * tile);
         } else {
-            drawText(g, Color.WHITE, 45, "Back to menu", 15 * tile);
+            drawText(g, Color.WHITE, 60, "Back to menu", 15 * tile);
         }
 
         // luk spil
         if (commandNum == 2) {
-            drawText(g, Color.decode("#C6372A"), 45, "Quit", 17 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "Quit", 17 * tile);
         } else {
-            drawText(g, Color.WHITE, 45, "Quit", 17 * tile);
+            drawText(g, Color.WHITE, 60, "Quit", 17 * tile);
         }
     }
 
@@ -95,23 +109,23 @@ public class UI {
 
         // start spil
         if (commandNum == 0) {
-            drawText(g, Color.decode("#C6372A"), 45, "Start game", 15 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "Start game", 15 * tile);
         } else {
-            drawText(g, Color.WHITE, 45, "Start game", 15 * tile);
+            drawText(g, Color.WHITE, 60, "Start game", 15 * tile);
         }
 
         // indstillinger
         if (commandNum == 1) {
-            drawText(g, Color.decode("#C6372A"), 45, "Settings", 17 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "Settings", 17 * tile);
         } else {
-            drawText(g, Color.WHITE, 45, "Settings", 17 * tile);
+            drawText(g, Color.WHITE, 60, "Settings", 17 * tile);
         }
 
         // afslut spil
         if (commandNum == 2) {
-            drawText(g, Color.decode("#C6372A"), 45, "Quit", 19 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "Quit", 19 * tile);
         } else {
-            drawText(g, Color.WHITE, 45, "Quit", 19 * tile);
+            drawText(g, Color.WHITE, 60, "Quit", 19 * tile);
         }
     }
 
@@ -119,63 +133,65 @@ public class UI {
         Graphics2D g2 = (Graphics2D) g;
 
         // titel på indstillinger
-        drawText(g, Color.WHITE, 110, "Settings", 10 * tile);
+        drawText(g, Color.WHITE, 140, "Settings", 10 * tile);
 
         // bane indstillinger
         g2.setStroke(new BasicStroke(5));
 
         // ændre n's størrelse
         g.setColor(Color.GREEN);
-        g.fillRect((int) screenSize.getWidth() / 3, 12 * tile, (int)((screenSize.getWidth() / 3 / 100) * gp.n), tile);
+        g.fillRect((int) screenSize.getWidth() / 3, 12 * tile, (int) ((screenSize.getWidth() / 3 / 100) * gp.n), tile);
         if (settingCommandNum == 0) {
             g.setColor(Color.decode("#C6372A"));
-            drawText(g, Color.decode("#C6372A"), 45, "The x-axis of the level", 14 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "The x-axis of the level", 14 * tile);
             drawText(g, Color.decode("#C6372A"), tile, "" + gp.n, 13 * tile);
         } else {
             g.setColor(Color.WHITE);
-            drawText(g, Color.WHITE, 45, "The x-axis of the level", 14 * tile);
+            drawText(g, Color.WHITE, 60, "The x-axis of the level", 14 * tile);
             drawText(g, Color.WHITE, tile, "" + gp.n, 13 * tile);
         }
         g.drawRect((int) screenSize.getWidth() / 3, 12 * tile, (int) screenSize.getWidth() / 3, tile);
 
         // ændre m's størrelse
         g.setColor(Color.GREEN);
-        g.fillRect((int) screenSize.getWidth() / 3, 15 * tile, (int)((screenSize.getWidth() / 3 / 100) * gp.m), tile);
+        g.fillRect((int) screenSize.getWidth() / 3, 15 * tile, (int) ((screenSize.getWidth() / 3 / 100) * gp.m), tile);
         if (settingCommandNum == 1) {
             g.setColor(Color.decode("#C6372A"));
-            drawText(g, Color.decode("#C6372A"), 45, "The y-axis of the level", 17 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "The y-axis of the level", 17 * tile);
             drawText(g, Color.decode("#C6372A"), tile, "" + gp.m, 16 * tile);
         } else {
             g.setColor(Color.WHITE);
-            drawText(g, Color.WHITE, 45, "The y-axis of the level", 17 * tile);
+            drawText(g, Color.WHITE, 60, "The y-axis of the level", 17 * tile);
             drawText(g, Color.WHITE, tile, "" + gp.m, 16 * tile);
         }
         g.drawRect((int) screenSize.getWidth() / 3, 15 * tile, (int) screenSize.getWidth() / 3, tile);
 
         // ændre volumen
         g.setColor(Color.GREEN);
-        g.fillRect((int) screenSize.getWidth() / 3, 18 * tile, (int)((screenSize.getWidth() / 3 / 100) * volume), tile);
+        g.fillRect((int) screenSize.getWidth() / 3, 18 * tile, (int) ((screenSize.getWidth() / 3 / 100) * volume),
+                tile);
         if (settingCommandNum == 2) {
             g.setColor(Color.decode("#C6372A"));
-            drawText(g, Color.decode("#C6372A"), 45, "Change volume", 20 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "Change volume", 20 * tile);
             drawText(g, Color.decode("#C6372A"), tile, "" + volume, 19 * tile);
         } else {
             g.setColor(Color.WHITE);
-            drawText(g, Color.WHITE, 45, "Change volume", 20 * tile);
+            drawText(g, Color.WHITE, 60, "Change volume", 20 * tile);
             drawText(g, Color.WHITE, tile, "" + volume, 19 * tile);
         }
         g.drawRect((int) screenSize.getWidth() / 3, 18 * tile, (int) screenSize.getWidth() / 3, tile);
 
         // ændre sværhedsgrad
         g.setColor(Color.GREEN);
-        g.fillRect((int) screenSize.getWidth() / 3, 21 * tile, (int)((screenSize.getWidth() / 3 / 100) * gp.tempFPS), tile);
+        g.fillRect((int) screenSize.getWidth() / 3, 21 * tile, (int) ((screenSize.getWidth() / 3 / 100) * gp.tempFPS),
+                tile);
         if (settingCommandNum == 3) {
             g.setColor(Color.decode("#C6372A"));
-            drawText(g, Color.decode("#C6372A"), 45, "Change difficulty", 23 * tile);
+            drawText(g, Color.decode("#C6372A"), 60, "Change difficulty", 23 * tile);
             drawText(g, Color.decode("#C6372A"), tile, "" + gp.tempFPS, 22 * tile);
         } else {
             g.setColor(Color.WHITE);
-            drawText(g, Color.WHITE, 45, "Change difficulty", 23 * tile);
+            drawText(g, Color.WHITE, 60, "Change difficulty", 23 * tile);
             drawText(g, Color.WHITE, tile, "" + gp.tempFPS, 22 * tile);
         }
         g.drawRect((int) screenSize.getWidth() / 3, 21 * tile, (int) screenSize.getWidth() / 3, tile);
@@ -226,7 +242,7 @@ public class UI {
 
     public void getImage() {
         try {
-            grass = ImageIO.read(getClass().getResourceAsStream("/res/grass.png"));
+            grass = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/grass.png"));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -234,7 +250,8 @@ public class UI {
 
     public void drawText(Graphics g, Color c, int fontSize, String text, int y) {
         g.setColor(c);
-        g.setFont(new Font("Algerian", Font.BOLD, fontSize));
+        g.setFont(pixeBoyFont);
+        g.setFont(g.getFont().deriveFont(Font.BOLD, fontSize));
         FontMetrics metrics = g.getFontMetrics(g.getFont());
         g.drawString(text, ((int) screenSize.getWidth() - metrics.stringWidth(text)) / 2, y);
     }

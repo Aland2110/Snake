@@ -12,7 +12,7 @@ public class Entity {
     private char lastDir;
     private int spriteCounter = 0;
     private int spriteNum = 1;
-    private BufferedImage Hoved1, Hoved1H, Hoved1N, Hoved1V, Hoved2, Hoved2H, Hoved2N, Hoved2V, Hoved3, Hoved3H,
+    public BufferedImage Hoved1, Hoved1H, Hoved1N, Hoved1V, Hoved2, Hoved2H, Hoved2N, Hoved2V, Hoved3, Hoved3H,
             Hoved3N, Hoved3V, Hoved4, Hoved4H, Hoved4N, Hoved4V, Hale, HaleH, HaleN, HaleV, Krop, KropH, Æble,
             Hjørnestykke, HjørnestykkeV, HjørnestykkeH, HjørnestykkeN;
     private int appleX;
@@ -50,33 +50,33 @@ public class Entity {
 
     public void getImage() {
         try {
-            Hoved1 = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 1.png"));
-            Hoved1H = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 1 (H).png"));
-            Hoved1N = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 1 (N).png"));
-            Hoved1V = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 1 (V).png"));
-            Hoved2 = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 2.png"));
-            Hoved2H = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 2 (H).png"));
-            Hoved2N = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 2 (N).png"));
-            Hoved2V = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 2 (V).png"));
-            Hoved3 = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 3.png"));
-            Hoved3H = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 3 (H).png"));
-            Hoved3N = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 3 (N).png"));
-            Hoved3V = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 3 (V).png"));
-            Hoved4 = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 4.png"));
-            Hoved4H = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 4 (H).png"));
-            Hoved4N = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 4 (N).png"));
-            Hoved4V = ImageIO.read(getClass().getResourceAsStream("/res/Hoved 4 (V).png"));
-            Hale = ImageIO.read(getClass().getResourceAsStream("/res/Hale.png"));
-            HaleH = ImageIO.read(getClass().getResourceAsStream("/res/Hale (H).png"));
-            HaleN = ImageIO.read(getClass().getResourceAsStream("/res/Hale (N).png"));
-            HaleV = ImageIO.read(getClass().getResourceAsStream("/res/Hale (V).png"));
-            Krop = ImageIO.read(getClass().getResourceAsStream("/res/Krop.png"));
-            KropH = ImageIO.read(getClass().getResourceAsStream("/res/Krop (H).png"));
-            Æble = ImageIO.read(getClass().getResourceAsStream("/res/apple.png"));
-            Hjørnestykke = ImageIO.read(getClass().getResourceAsStream("/res/Hjørnestykke.png"));
-            HjørnestykkeV = ImageIO.read(getClass().getResourceAsStream("/res/HjørnestykkeV.png"));
-            HjørnestykkeN = ImageIO.read(getClass().getResourceAsStream("/res/HjørnestykkeN.png"));
-            HjørnestykkeH = ImageIO.read(getClass().getResourceAsStream("/res/HjørnestykkeH.png"));
+            Hoved1 = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 1.png"));
+            Hoved1H = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 1 (H).png"));
+            Hoved1N = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 1 (N).png"));
+            Hoved1V = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 1 (V).png"));
+            Hoved2 = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 2.png"));
+            Hoved2H = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 2 (H).png"));
+            Hoved2N = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 2 (N).png"));
+            Hoved2V = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 2 (V).png"));
+            Hoved3 = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 3.png"));
+            Hoved3H = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 3 (H).png"));
+            Hoved3N = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 3 (N).png"));
+            Hoved3V = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 3 (V).png"));
+            Hoved4 = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 4.png"));
+            Hoved4H = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 4 (H).png"));
+            Hoved4N = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 4 (N).png"));
+            Hoved4V = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 4 (V).png"));
+            Hale = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hale.png"));
+            HaleH = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hale (H).png"));
+            HaleN = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hale (N).png"));
+            HaleV = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hale (V).png"));
+            Krop = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Krop.png"));
+            KropH = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Krop (H).png"));
+            Æble = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/apple.png"));
+            Hjørnestykke = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hjørnestykke.png"));
+            HjørnestykkeV = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/HjørnestykkeV.png"));
+            HjørnestykkeN = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/HjørnestykkeN.png"));
+            HjørnestykkeH = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/HjørnestykkeH.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }

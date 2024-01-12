@@ -164,6 +164,7 @@ public class GamePanel extends JPanel implements Runnable {
         // Tjekker collision med sig selv
         for (int i = entity.bodyParts; i > 0; i--) {
             if (y[0] == y[i] && x[0] == x[i]) {
+                PlaySE(2);
                 gameState = gameOverState;
                 entity.snakePos();
             }
@@ -172,6 +173,7 @@ public class GamePanel extends JPanel implements Runnable {
         // Tjekker om slangens hovedet er inden for banen.
         if (x[0] < gameWindowXStart || x[0] >= gameWindowXStart + GAMEWIDTH || y[0] < gameWindowYStart
                 || y[0] >= gameWindowYStart + GAMEHEIGHT) {
+            PlaySE(2);
             gameState = gameOverState;
             entity.snakePos();
         }
@@ -220,7 +222,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void PlaySE(int i) {
-        sound.setFile(i, UI.volume - 80);
+        sound.setFile(i, UI.volume - 60);
         sound.play(i);
     }
 

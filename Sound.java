@@ -8,11 +8,12 @@ public class Sound {
 
         Clip clip[] = new Clip[3];
         URL soundURL[] = new URL[3];
-        FloatControl control[] = new FloatControl[2];
+        FloatControl control[] = new FloatControl[3];
 
         public Sound() {
-                soundURL[0] = getClass().getResource("res\\musik\\mario_musik.wav");
-                soundURL[1] = getClass().getResource("res\\musik\\eatingSE.wav");
+                soundURL[0] = getClass().getResource("res/Music/mario_musik.wav");
+                soundURL[1] = getClass().getResource("res/Music/eatingSE.wav");
+                soundURL[2] = getClass().getResource("res/Music/death_sound.wav");
         }
 
         public void setFile(int i, int v) {

@@ -139,7 +139,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGameSize(true, gp.UI.settingCommandNum);
                     } else if (gp.UI.settingCommandNum == 2 && gp.UI.volume < 100) {
                         gp.changeVolume(true);
-                    } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS < 100) {
+                    } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS < 30) {
                         gp.changeDifficulty(true);
                     }
                     break;
