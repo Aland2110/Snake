@@ -29,11 +29,18 @@ public class Entity {
     }
 
     public void snakePos() {
+        snakeInfo();
+        snakeCenter();
+    }
+
+    public void snakeInfo() {
         this.x = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
         this.y = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
         this.lastDir = 'D';
         this.bodyParts = 2;
+    }
 
+    public void snakeCenter() {
         for (int i = 0; i < bodyParts; i++) {
             x[i] = (gp.n / 2 - i) * gp.TILESIZE + gp.gameWindowXStart;
             y[i] = gp.m / 2 * gp.TILESIZE + gp.gameWindowYStart;
