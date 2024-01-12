@@ -1,7 +1,6 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Toolkit;
 import java.util.Random;
 import javax.swing.JPanel;
 
@@ -38,11 +37,10 @@ public class GamePanel extends JPanel implements Runnable {
     Thread gameThread;
     Entity entity = new Entity(this, keyH);
     UI UI = new UI(this);
-    Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public GamePanel() {
         this.random = new Random();
-        this.setPreferredSize(screenSize); // spilets størrelse defineres
+        this.setPreferredSize(new Dimension(UI.SCREENWIDTH, UI.SCREENHEIGHT)); // spilets størrelse defineres
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
@@ -52,16 +50,23 @@ public class GamePanel extends JPanel implements Runnable {
     public void settings() {
         this.GAMEWIDTH = TILESIZE * n;
         this.GAMEHEIGHT = TILESIZE * m;
-        this.gameWindowXStart = ((int) screenSize.getWidth() - GAMEWIDTH) / 2;
-        this.gameWindowYStart = ((int) screenSize.getHeight() - GAMEHEIGHT) / 2;
+        this.gameWindowXStart = (UI.SCREENWIDTH - GAMEWIDTH) / 2;
+        this.gameWindowYStart = (UI.SCREENHEIGHT - GAMEHEIGHT) / 2;
 
-        while (GAMEWIDTH > (int) screenSize.getWidth() - TILESIZE * 4
-                || GAMEHEIGHT > (int) screenSize.getHeight() - TILESIZE * 20) {
+        while (GAMEWIDTH > UI.SCREENWIDTH - TILESIZE * 4
+                || GAMEHEIGHT > UI.SCREENHEIGHT - TILESIZE * 20) {
             TILESIZE -= 1;
             this.GAMEWIDTH = TILESIZE * n;
             this.GAMEHEIGHT = TILESIZE * m;
-            this.gameWindowXStart = ((int) screenSize.getWidth() - GAMEWIDTH) / 2;
-            this.gameWindowYStart = ((int) screenSize.getHeight() - GAMEHEIGHT) / 2;
+            this.gameWindowXStart = (UI.SCREENWIDTH - GAMEWIDTH) / 2;
+            this.gameWindowYStart = (UI.SCREENHEIGHT - GAMEHEIGHT) / 2;
+        }
+        while (GAMEWIDTH < TILESIZE * 6 || GAMEHEIGHT < TILESIZE * 6) {
+            TILESIZE += 1;
+            this.GAMEWIDTH = TILESIZE * n;
+            this.GAMEHEIGHT = TILESIZE * m;
+            this.gameWindowXStart = (UI.SCREENWIDTH - GAMEWIDTH) / 2;
+            this.gameWindowYStart = (UI.SCREENHEIGHT - GAMEHEIGHT) / 2;
         }
         while (gameWindowXStart % TILESIZE != 0 || gameWindowYStart % TILESIZE != 0) {
             if (gameWindowXStart % TILESIZE != 0) {

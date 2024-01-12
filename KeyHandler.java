@@ -128,7 +128,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGameSize(false, gp.UI.settingCommandNum);
                     } else if (gp.UI.settingCommandNum == 2 && gp.UI.volume > 0) {
                         gp.changeVolume(false);
-                    } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS > 5) {
+                    } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS > 1) {
                         gp.changeDifficulty(false);
                     }
                     break;
@@ -139,7 +139,7 @@ public class KeyHandler implements KeyListener {
                         gp.setGameSize(true, gp.UI.settingCommandNum);
                     } else if (gp.UI.settingCommandNum == 2 && gp.UI.volume < 100) {
                         gp.changeVolume(true);
-                    } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS < 30) {
+                    } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS < 100) {
                         gp.changeDifficulty(true);
                     }
                     break;
