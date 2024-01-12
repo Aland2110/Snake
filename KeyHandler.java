@@ -122,17 +122,21 @@ public class KeyHandler implements KeyListener {
                     }
                     break;
                 case KeyEvent.VK_A:
-                    if (gp.UI.settingCommandNum == 0) {
+                    if (gp.UI.settingCommandNum == 0 && gp.n > 4) {
                         gp.setGameSize(false, gp.UI.settingCommandNum);
-                    } else if (gp.UI.settingCommandNum == 1) {
+                    } else if (gp.UI.settingCommandNum == 1 && gp.m > 4) {
                         gp.setGameSize(false, gp.UI.settingCommandNum);
+                    } else if (gp.UI.settingCommandNum == 2 && gp.UI.volume > 0) {
+                        gp.changeVolume(false);
                     }
                     break;
                 case KeyEvent.VK_D:
-                    if (gp.UI.settingCommandNum == 0) {
+                    if (gp.UI.settingCommandNum == 0 && gp.n < 100) {
                         gp.setGameSize(true, gp.UI.settingCommandNum);
-                    } else if (gp.UI.settingCommandNum == 1) {
+                    } else if (gp.UI.settingCommandNum == 1 && gp.m < 100) {
                         gp.setGameSize(true, gp.UI.settingCommandNum);
+                    } else if (gp.UI.settingCommandNum == 2 && gp.UI.volume < 100) {
+                        gp.changeVolume(true);
                     }
                     break;
                 case KeyEvent.VK_ENTER:

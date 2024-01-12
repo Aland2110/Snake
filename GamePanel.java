@@ -200,7 +200,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void playMusic(int i) {
-        sound.setFile(i);
+        sound.setFile(i, UI.volume - 80);
         sound.play(i);
         sound.loop(i);
     }
@@ -210,7 +210,15 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void PlaySE(int i) {
-        sound.setFile(i);
+        sound.setFile(i, UI.volume - 80);
         sound.play(i);
+    }
+
+    public void changeVolume(boolean b) {
+        if (b) {
+            UI.volume += 2;
+        } else {
+            UI.volume -= 2;
+        }
     }
 }

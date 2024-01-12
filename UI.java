@@ -17,6 +17,7 @@ public class UI {
 
     public int commandNum = 0;
     public int settingCommandNum = 0;
+    public int volume = 50;
     private int tile = (int) screenSize.getWidth() / 48;
 
     public UI(GamePanel gp) {
@@ -124,35 +125,40 @@ public class UI {
         g2.setStroke(new BasicStroke(5));
 
         // ændre n's størrelse
+        g.setColor(Color.GREEN);
+        g.fillRect((int) screenSize.getWidth() / 3, 15 * tile, (int)((screenSize.getWidth() / 3 / 100) * gp.n), tile);
         if (settingCommandNum == 0) {
             g.setColor(Color.RED);
-            g.drawRect((int) screenSize.getWidth() / 3, 15 * tile, (int) screenSize.getWidth() / 3, tile);
             drawText(g, Color.RED, tile, "" + gp.n, 16 * tile);
         } else {
             g.setColor(Color.WHITE);
-            g.drawRect((int) screenSize.getWidth() / 3, 15 * tile, (int) screenSize.getWidth() / 3, tile);
             drawText(g, Color.WHITE, tile, "" + gp.n, 16 * tile);
         }
+        g.drawRect((int) screenSize.getWidth() / 3, 15 * tile, (int) screenSize.getWidth() / 3, tile);
 
         // ændre m's størrelse
+        g.setColor(Color.GREEN);
+        g.fillRect((int) screenSize.getWidth() / 3, 17 * tile, (int)((screenSize.getWidth() / 3 / 100) * gp.m), tile);
         if (settingCommandNum == 1) {
             g.setColor(Color.RED);
-            g.drawRect((int) screenSize.getWidth() / 3, 17 * tile, (int) screenSize.getWidth() / 3, tile);
             drawText(g, Color.RED, tile, "" + gp.m, 18 * tile);
         } else {
             g.setColor(Color.WHITE);
-            g.drawRect((int) screenSize.getWidth() / 3, 17 * tile, (int) screenSize.getWidth() / 3, tile);
             drawText(g, Color.WHITE, tile, "" + gp.m, 18 * tile);
         }
+        g.drawRect((int) screenSize.getWidth() / 3, 17 * tile, (int) screenSize.getWidth() / 3, tile);
 
         //
+        g.setColor(Color.GREEN);
+        g.fillRect((int) screenSize.getWidth() / 3, 19 * tile, (int)((screenSize.getWidth() / 3 / 100) * volume), tile);
         if (settingCommandNum == 2) {
             g.setColor(Color.RED);
-            g.drawRect((int) screenSize.getWidth() / 3, 19 * tile, (int) screenSize.getWidth() / 3, tile);
+            drawText(g, Color.RED, tile, "" + volume, 20 * tile);
         } else {
             g.setColor(Color.WHITE);
-            g.drawRect((int) screenSize.getWidth() / 3, 19 * tile, (int) screenSize.getWidth() / 3, tile);
+            drawText(g, Color.WHITE, tile, "" + volume, 20 * tile);
         }
+        g.drawRect((int) screenSize.getWidth() / 3, 19 * tile, (int) screenSize.getWidth() / 3, tile);
 
         // gå tilbage til menuen
         if (settingCommandNum == 3) {

@@ -8,19 +8,19 @@ public class Sound {
 
         Clip clip[] = new Clip[2];
         URL soundURL[] = new URL[30];
-        FloatControl control;
+        FloatControl control[] = new FloatControl[2];
 
         public Sound() {
                 soundURL[0] = getClass().getResource("res\\musik\\mario_musik.wav");
                 soundURL[1] = getClass().getResource("res\\musik\\eatingSE.wav");
         }
 
-        public void setFile(int i) {
+        public void setFile(int i, int v) {
                 try {
                         AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
                         clip[i] = AudioSystem.getClip();
                         clip[i].open(ais);
-                        volume(-30, i);
+                        volume(v, i);
                 } catch (Exception e) {
                         e.printStackTrace();
                 }
@@ -39,7 +39,7 @@ public class Sound {
         }
 
         public void volume(float v, int i) {
-                control = (FloatControl) clip[i].getControl(FloatControl.Type.MASTER_GAIN);
-                control.setValue(v);
+                control[i] = (FloatControl) clip[i].getControl(FloatControl.Type.MASTER_GAIN);
+                control[i].setValue(v);
         }
 }
