@@ -40,13 +40,13 @@ public class GamePanel extends JPanel implements Runnable {
     UI UI = new UI(this);
     Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
-    public GamePanel(int n, int m, int s) {
+    public GamePanel() {
         this.random = new Random();
         this.setPreferredSize(screenSize); // spilets størrelse defineres
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
-        this.gameState = s;
+        this.gameState = titleState;
     }
 
     public void settings() {

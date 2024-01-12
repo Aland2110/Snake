@@ -2,12 +2,12 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-        game(88, 66);
+        game();
     }
 
-    public static void game(int n, int m) {
+    public static void game() {
         JFrame gameWindow = new JFrame();
-        GamePanel gamePanel = new GamePanel(n, m, 0);
+        GamePanel gamePanel = new GamePanel();
 
         gameWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gameWindow.setResizable(false);
