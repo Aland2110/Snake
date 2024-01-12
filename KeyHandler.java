@@ -161,4 +161,8 @@ public class KeyHandler implements KeyListener {
     public char getDir() {
         return direction;
     }
+
+    public void setDir() {
+        direction = 'D';
+    }
 }

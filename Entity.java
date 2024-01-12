@@ -36,8 +36,9 @@ public class Entity {
     public void snakeInfo() {
         this.x = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
         this.y = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
-        this.lastDir = 'D';
         this.bodyParts = 2;
+        this.lastDir = 'D';
+        keyH.setDir();
     }
 
     public void snakeCenter() {

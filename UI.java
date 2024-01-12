@@ -22,7 +22,7 @@ public class UI {
     public int commandNum = 0;
     public int settingCommandNum = 0;
     public int volume = 50;
-    private int tile = (int) screenSize.getWidth() / 48;
+    private int tile = (int) screenSize.getHeight() / 27;
 
     public UI(GamePanel gp) {
         this.gp = gp;
