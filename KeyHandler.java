@@ -112,22 +112,24 @@ public class KeyHandler implements KeyListener {
                 case KeyEvent.VK_W:
                     gp.UI.settingCommandNum--;
                     if (gp.UI.settingCommandNum < 0) {
-                        gp.UI.settingCommandNum = 3;
+                        gp.UI.settingCommandNum = 4;
                     }
                     break;
                 case KeyEvent.VK_S:
                     gp.UI.settingCommandNum++;
-                    if (gp.UI.settingCommandNum > 3) {
+                    if (gp.UI.settingCommandNum > 4) {
                         gp.UI.settingCommandNum = 0;
                     }
                     break;
                 case KeyEvent.VK_A:
-                    if (gp.UI.settingCommandNum == 0 && gp.n > 4) {
+                    if (gp.UI.settingCommandNum == 0 && gp.n > 6) {
                         gp.setGameSize(false, gp.UI.settingCommandNum);
-                    } else if (gp.UI.settingCommandNum == 1 && gp.m > 4) {
+                    } else if (gp.UI.settingCommandNum == 1 && gp.m > 6) {
                         gp.setGameSize(false, gp.UI.settingCommandNum);
                     } else if (gp.UI.settingCommandNum == 2 && gp.UI.volume > 0) {
                         gp.changeVolume(false);
+                    } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS > 5) {
+                        gp.changeDifficulty(false);
                     }
                     break;
                 case KeyEvent.VK_D:
@@ -137,10 +139,12 @@ public class KeyHandler implements KeyListener {
                         gp.setGameSize(true, gp.UI.settingCommandNum);
                     } else if (gp.UI.settingCommandNum == 2 && gp.UI.volume < 100) {
                         gp.changeVolume(true);
+                    } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS < 100) {
+                        gp.changeDifficulty(true);
                     }
                     break;
                 case KeyEvent.VK_ENTER:
-                    if (gp.UI.settingCommandNum == 3) {
+                    if (gp.UI.settingCommandNum == 4) {
                         gp.setGameState(gp.titleState);
                         gp.UI.settingCommandNum = 0;
                     }

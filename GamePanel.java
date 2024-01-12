@@ -16,6 +16,7 @@ public class GamePanel extends JPanel implements Runnable {
     public int gameWindowYStart;
 
     // Game running variables
+    public int tempFPS = 5;
     private int FPS = 60;
     private double drawInterval;
     private double nextDrawTime;
@@ -42,7 +43,6 @@ public class GamePanel extends JPanel implements Runnable {
     public GamePanel(int n, int m, int s) {
         this.random = new Random();
         this.setPreferredSize(screenSize); // spilets størrelse defineres
-        this.setBackground(Color.PINK);
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
@@ -89,10 +89,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-
         // mens spillet kører, opdateres og tegnes vinduet
         while (gameThread != null) {
-            updateFPS();
+            updateFPS(tempFPS);
             this.drawInterval = 1000000000 / FPS;
             this.nextDrawTime = System.nanoTime() + drawInterval;
 
@@ -125,11 +124,11 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void updateFPS() {
+    public void updateFPS(int n) {
         if (gameState != playState) {
             FPS = 60;
         } else {
-            FPS = 5;
+            FPS = n;
         }
     }
 
@@ -138,15 +137,18 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
 
         if (gameState == playState || gameState == pauseState) {
+            this.setBackground(Color.decode("#2AB9C6"));
             UI.drawLevel(g);
             UI.drawScore(g);
             entity.draw(g); // Slangen og æblet tegnes
             UI.drawPause(g);
         }
         if (gameState == titleState) {
+            this.setBackground(Color.decode("#852AC6"));
             UI.drawTitleScreen(g);
         }
         if (gameState == gameOverState) {
+            this.setBackground(Color.decode("#852AC6"));
             stopMusic(0);
             UI.drawGameOver(g);
         }
@@ -196,6 +198,14 @@ public class GamePanel extends JPanel implements Runnable {
             } else {
                 m -= 2;
             }
+        }
+    }
+
+    public void changeDifficulty(boolean b) {
+        if (b) {
+            tempFPS += 1;
+        } else {
+            tempFPS -= 1;
         }
     }
 
