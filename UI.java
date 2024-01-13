@@ -21,8 +21,8 @@ public class UI {
     public int volume = 50;
     private int tile = 40;
     public int difficulty = 0;
-    public final int SCREENWIDTH = 1280;
-    public final int SCREENHEIGHT = 720;
+    public final double SCREENWIDTH = 1280;
+    public final double SCREENHEIGHT = 720;
 
     public UI(GamePanel gp) {
         this.gp = gp;
@@ -139,8 +139,8 @@ public class UI {
         g2.setStroke(new BasicStroke(5));
 
         // ændre n's størrelse
-         g.setColor(Color.GREEN);
-        g.fillRect((int) SCREENWIDTH / 3, 5 * tile, ((SCREENWIDTH / 3 / 100) * gp.n), tile);
+        g.setColor(Color.GREEN);
+        g.fillRect((int) SCREENWIDTH / 3, 5 * tile, (int) (SCREENWIDTH / 3 / 100 * gp.n), tile);
         if (settingCommandNum == 0) {
             g.setColor(Color.decode("#C6372A"));
             drawText(g, Color.decode("#C6372A"), 60, "The x-axis of the level", 7 * tile);
@@ -154,7 +154,7 @@ public class UI {
 
         // ændre m's størrelse
         g.setColor(Color.GREEN);
-        g.fillRect((int) SCREENWIDTH / 3, 8 * tile, (int) ((SCREENWIDTH / 3 / 100) * gp.m), tile);
+        g.fillRect((int) SCREENWIDTH / 3, 8 * tile, (int) (SCREENWIDTH / 3 / 100 * gp.m), tile);
         if (settingCommandNum == 1) {
             g.setColor(Color.decode("#C6372A"));
             drawText(g, Color.decode("#C6372A"), 60, "The y-axis of the level", 10 * tile);
@@ -168,7 +168,7 @@ public class UI {
 
         // ændre volumen
         g.setColor(Color.GREEN);
-        g.fillRect((int) SCREENWIDTH / 3, 11 * tile, (int) ((SCREENWIDTH / 3 / 100) * volume),
+        g.fillRect((int) SCREENWIDTH / 3, 11 * tile, (int) (SCREENWIDTH / 3 / 100 * volume),
                 tile);
         if (settingCommandNum == 2) {
             g.setColor(Color.decode("#C6372A"));

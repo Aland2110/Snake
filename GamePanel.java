@@ -40,7 +40,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     public GamePanel() {
         this.random = new Random();
-        this.setPreferredSize(new Dimension(UI.SCREENWIDTH, UI.SCREENHEIGHT)); // spilets størrelse defineres
+        this.setPreferredSize(new Dimension((int) UI.SCREENWIDTH, (int) UI.SCREENHEIGHT)); // spilets størrelse
+                                                                                           // defineres
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
@@ -51,23 +52,23 @@ public class GamePanel extends JPanel implements Runnable {
     public void settings() {
         this.GAMEWIDTH = TILESIZE * n;
         this.GAMEHEIGHT = TILESIZE * m;
-        this.gameWindowXStart = (UI.SCREENWIDTH - GAMEWIDTH) / 2;
-        this.gameWindowYStart = (UI.SCREENHEIGHT - GAMEHEIGHT) / 2;
+        this.gameWindowXStart = (int) (UI.SCREENWIDTH - GAMEWIDTH) / 2;
+        this.gameWindowYStart = (int) (UI.SCREENHEIGHT - GAMEHEIGHT) / 2;
 
         while (GAMEWIDTH > UI.SCREENWIDTH - TILESIZE * 4
                 || GAMEHEIGHT > UI.SCREENHEIGHT - TILESIZE * 20) {
             TILESIZE -= 1;
             this.GAMEWIDTH = TILESIZE * n;
             this.GAMEHEIGHT = TILESIZE * m;
-            this.gameWindowXStart = (UI.SCREENWIDTH - GAMEWIDTH) / 2;
-            this.gameWindowYStart = (UI.SCREENHEIGHT - GAMEHEIGHT) / 2;
+            this.gameWindowXStart = (int) (UI.SCREENWIDTH - GAMEWIDTH) / 2;
+            this.gameWindowYStart = (int) (UI.SCREENHEIGHT - GAMEHEIGHT) / 2;
         }
         while (GAMEWIDTH < TILESIZE * 6 || GAMEHEIGHT < TILESIZE * 6) {
             TILESIZE += 1;
             this.GAMEWIDTH = TILESIZE * n;
             this.GAMEHEIGHT = TILESIZE * m;
-            this.gameWindowXStart = (UI.SCREENWIDTH - GAMEWIDTH) / 2;
-            this.gameWindowYStart = (UI.SCREENHEIGHT - GAMEHEIGHT) / 2;
+            this.gameWindowXStart = (int) (UI.SCREENWIDTH - GAMEWIDTH) / 2;
+            this.gameWindowYStart = (int) (UI.SCREENHEIGHT - GAMEHEIGHT) / 2;
         }
         while (gameWindowXStart % TILESIZE != 0 || gameWindowYStart % TILESIZE != 0) {
             if (gameWindowXStart % TILESIZE != 0) {
@@ -177,11 +178,26 @@ public class GamePanel extends JPanel implements Runnable {
         }
 
         // Tjekker om slangens hovedet er inden for banen.
-        if (x[0] < gameWindowXStart || x[0] >= gameWindowXStart + GAMEWIDTH || y[0] < gameWindowYStart
-                || y[0] >= gameWindowYStart + GAMEHEIGHT) {
-            playSE(2);
-            gameState = gameOverState;
-            entity.snakePos();
+        if (UI.difficulty == 0) {
+            if (x[0] < gameWindowXStart) {
+                x[0] = gameWindowXStart + GAMEWIDTH - TILESIZE;
+            }
+            if (x[0] >= gameWindowXStart + GAMEWIDTH) {
+                x[0] = gameWindowXStart;
+            }
+            if (y[0] < gameWindowYStart) {
+                y[0] = gameWindowYStart + GAMEHEIGHT - TILESIZE;
+            }
+            if (y[0] >= gameWindowYStart + GAMEHEIGHT) {
+                y[0] = gameWindowYStart;
+            }
+        } else {
+            if (x[0] < gameWindowXStart || x[0] >= gameWindowXStart + GAMEWIDTH || y[0] < gameWindowYStart
+                    || y[0] >= gameWindowYStart + GAMEHEIGHT) {
+                playSE(2);
+                gameState = gameOverState;
+                entity.snakePos();
+            }
         }
     }
 
