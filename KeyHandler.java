@@ -22,13 +22,13 @@ public class KeyHandler implements KeyListener {
         // behandler menurelateret kontrol
         if (gp.getGameState() != gp.playState) {
             switch (code) {
-                case KeyEvent.VK_W:
+                case KeyEvent.VK_UP:
                     gp.UI.commandNum--;
                     if (gp.UI.commandNum < 0) {
                         gp.UI.commandNum = 2;
                     }
                     break;
-                case KeyEvent.VK_S:
+                case KeyEvent.VK_DOWN:
                     gp.UI.commandNum++;
                     if (gp.UI.commandNum > 2) {
                         gp.UI.commandNum = 0;
@@ -81,16 +81,16 @@ public class KeyHandler implements KeyListener {
         // behandler spilrelateret kontrol
         if (gp.getGameState() == gp.playState || gp.getGameState() == gp.pauseState) {
             switch (code) {
-                case KeyEvent.VK_W:
+                case KeyEvent.VK_UP:
                     direction = 'W';
                     break;
-                case KeyEvent.VK_A:
+                case KeyEvent.VK_LEFT:
                     direction = 'A';
                     break;
-                case KeyEvent.VK_S:
+                case KeyEvent.VK_DOWN:
                     direction = 'S';
                     break;
-                case KeyEvent.VK_D:
+                case KeyEvent.VK_RIGHT:
                     direction = 'D';
                     break;
                 case KeyEvent.VK_ESCAPE:
@@ -109,19 +109,19 @@ public class KeyHandler implements KeyListener {
         // behandler kontrol i indstillinger
         if (gp.getGameState() == gp.settingState) {
             switch (code) {
-                case KeyEvent.VK_W:
+                case KeyEvent.VK_UP:
                     gp.UI.settingCommandNum--;
                     if (gp.UI.settingCommandNum < 0) {
                         gp.UI.settingCommandNum = 4;
                     }
                     break;
-                case KeyEvent.VK_S:
+                case KeyEvent.VK_DOWN:
                     gp.UI.settingCommandNum++;
                     if (gp.UI.settingCommandNum > 4) {
                         gp.UI.settingCommandNum = 0;
                     }
                     break;
-                case KeyEvent.VK_A:
+                case KeyEvent.VK_LEFT:
                     if (gp.UI.settingCommandNum == 0 && gp.n > 6) {
                         gp.setGameSize(false, gp.UI.settingCommandNum);
                     } else if (gp.UI.settingCommandNum == 1 && gp.m > 6) {
@@ -136,7 +136,7 @@ public class KeyHandler implements KeyListener {
                         gp.changeDifficulty();
                     }
                     break;
-                case KeyEvent.VK_D:
+                case KeyEvent.VK_RIGHT:
                     if (gp.UI.settingCommandNum == 0 && gp.n < 100) {
                         gp.setGameSize(true, gp.UI.settingCommandNum);
                     } else if (gp.UI.settingCommandNum == 1 && gp.m < 100) {
