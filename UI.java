@@ -139,8 +139,8 @@ public class UI {
         g2.setStroke(new BasicStroke(5));
 
         // ændre n's størrelse
-        g.setColor(Color.GREEN);
-        g.fillRect((int) SCREENWIDTH / 3, 5 * tile, (int) ((SCREENWIDTH / 3 / 100) * gp.n), tile);
+         g.setColor(Color.GREEN);
+        g.fillRect((int) SCREENWIDTH / 3, 5 * tile, ((SCREENWIDTH / 3 / 100) * gp.n), tile);
         if (settingCommandNum == 0) {
             g.setColor(Color.decode("#C6372A"));
             drawText(g, Color.decode("#C6372A"), 60, "The x-axis of the level", 7 * tile);

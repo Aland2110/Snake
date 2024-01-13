@@ -279,11 +279,11 @@ public class Entity {
         int tempY = random.nextInt(gp.m) * gp.TILESIZE + gp.gameWindowYStart;
 
         // tjekker om koordinaterne til æblet er i slangen
-        for (int i = 0; i < bodyParts; i++) {
-            while (x[i] == tempX && y[i] == tempY) {
-                tempX = random.nextInt(gp.n) * gp.TILESIZE + gp.gameWindowXStart;
-                tempY = random.nextInt(gp.m) * gp.TILESIZE + gp.gameWindowYStart;
-            }
+        int i = 0;
+        while(x[i] == tempX && y[i] == tempY && i < bodyParts) {
+            tempX = random.nextInt(gp.n) * gp.TILESIZE + gp.gameWindowXStart;
+            tempY = random.nextInt(gp.m) * gp.TILESIZE + gp.gameWindowYStart;
+            i++;
         }
 
         appleX = tempX;
