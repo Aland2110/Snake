@@ -267,7 +267,7 @@ public class Entity {
 
     public void appleEat() {
         if (y[0] == appleY && x[0] == appleX) {
-            gp.PlaySE(1);
+            gp.playSE(1);
             bodyParts++;
             applesEaten++;
             createApple();

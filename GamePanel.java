@@ -47,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.gameState = titleState;
     }
 
+    // størrelsen af banen tilpasses til vinduet
     public void settings() {
         this.GAMEWIDTH = TILESIZE * n;
         this.GAMEHEIGHT = TILESIZE * m;
@@ -169,7 +170,7 @@ public class GamePanel extends JPanel implements Runnable {
         // Tjekker collision med sig selv
         for (int i = entity.bodyParts; i > 0; i--) {
             if (y[0] == y[i] && x[0] == x[i]) {
-                PlaySE(2);
+                playSE(2);
                 gameState = gameOverState;
                 entity.snakePos();
             }
@@ -178,7 +179,7 @@ public class GamePanel extends JPanel implements Runnable {
         // Tjekker om slangens hovedet er inden for banen.
         if (x[0] < gameWindowXStart || x[0] >= gameWindowXStart + GAMEWIDTH || y[0] < gameWindowYStart
                 || y[0] >= gameWindowYStart + GAMEHEIGHT) {
-            PlaySE(2);
+            playSE(2);
             gameState = gameOverState;
             entity.snakePos();
         }
@@ -208,16 +209,23 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void changeDifficulty(boolean b) {
-        if (b) {
-            tempFPS += 1;
-        } else {
-            tempFPS -= 1;
+    public void changeDifficulty() {
+        tempFPS = (n + m) / 6;
+        if (UI.difficulty == 0) {
+            tempFPS -= tempFPS / 2;
+        } else if (UI.difficulty == 1) {
+            tempFPS = (n + m) / 6;
+        } else if (UI.difficulty == 2) {
+            tempFPS += tempFPS / 2;
         }
     }
 
     public void playMusic(int i) {
-        sound.setFile(i, UI.volume - 80);
+        int v = UI.volume - 80;
+        if (v > 6) {
+            v = 6;
+        }
+        sound.setFile(i, v);
         sound.play(i);
         sound.loop(i);
     }
@@ -226,8 +234,12 @@ public class GamePanel extends JPanel implements Runnable {
         sound.stop(i);
     }
 
-    public void PlaySE(int i) {
-        sound.setFile(i, UI.volume - 60);
+    public void playSE(int i) {
+        int v = UI.volume - 80;
+        if (v > 6) {
+            v = 6;
+        }
+        sound.setFile(i, v);
         sound.play(i);
     }
 

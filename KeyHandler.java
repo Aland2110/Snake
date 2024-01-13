@@ -128,8 +128,12 @@ public class KeyHandler implements KeyListener {
                         gp.setGameSize(false, gp.UI.settingCommandNum);
                     } else if (gp.UI.settingCommandNum == 2 && gp.UI.volume > 0) {
                         gp.changeVolume(false);
-                    } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS > 1) {
-                        gp.changeDifficulty(false);
+                    } else if (gp.UI.settingCommandNum == 3) {
+                        gp.UI.difficulty--;
+                        if (gp.UI.difficulty < 0) {
+                            gp.UI.difficulty = 2;
+                        }
+                        gp.changeDifficulty();
                     }
                     break;
                 case KeyEvent.VK_D:
@@ -140,7 +144,11 @@ public class KeyHandler implements KeyListener {
                     } else if (gp.UI.settingCommandNum == 2 && gp.UI.volume < 100) {
                         gp.changeVolume(true);
                     } else if (gp.UI.settingCommandNum == 3 && gp.tempFPS < 100) {
-                        gp.changeDifficulty(true);
+                        gp.UI.difficulty++;
+                        if (gp.UI.difficulty > 2) {
+                            gp.UI.difficulty = 0;
+                        }
+                        gp.changeDifficulty();
                     }
                     break;
                 case KeyEvent.VK_ENTER:

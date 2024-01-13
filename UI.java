@@ -20,6 +20,7 @@ public class UI {
     public int settingCommandNum = 0;
     public int volume = 50;
     private int tile = 40;
+    public int difficulty = 0;
     public final int SCREENWIDTH = 1280;
     public final int SCREENHEIGHT = 720;
 
@@ -182,16 +183,36 @@ public class UI {
 
         // ændre sværhedsgrad
         g.setColor(Color.GREEN);
-        g.fillRect((int) SCREENWIDTH / 3, 14 * tile, (int) ((SCREENWIDTH / 3 / 100) * gp.tempFPS),
+        g.fillRect((int) SCREENWIDTH / 3, 14 * tile, (int) ((SCREENWIDTH / 9) * (difficulty + 1)),
                 tile);
         if (settingCommandNum == 3) {
             g.setColor(Color.decode("#C6372A"));
             drawText(g, Color.decode("#C6372A"), 60, "Change difficulty", 16 * tile);
-            drawText(g, Color.decode("#C6372A"), tile, "" + gp.tempFPS, 15 * tile);
+            switch (difficulty) {
+                case 0:
+                    drawText(g, Color.decode("#C6372A"), tile, "Easy", 15 * tile);
+                    break;
+                case 1:
+                    drawText(g, Color.decode("#C6372A"), tile, "Medium", 15 * tile);
+                    break;
+                case 2:
+                    drawText(g, Color.decode("#C6372A"), tile, "Hard", 15 * tile);
+                    break;
+            }
         } else {
             g.setColor(Color.WHITE);
             drawText(g, Color.WHITE, 60, "Change difficulty", 16 * tile);
-            drawText(g, Color.WHITE, tile, "" + gp.tempFPS, 15 * tile);
+            switch (difficulty) {
+                case 0:
+                    drawText(g, Color.WHITE, tile, "Easy", 15 * tile);
+                    break;
+                case 1:
+                    drawText(g, Color.WHITE, tile, "Medium", 15 * tile);
+                    break;
+                case 2:
+                    drawText(g, Color.WHITE, tile, "Hard", 15 * tile);
+                    break;
+            }
         }
         g.drawRect((int) SCREENWIDTH / 3, 14 * tile, (int) SCREENWIDTH / 3, tile);
 
