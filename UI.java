@@ -23,10 +23,11 @@ public class UI {
     public int difficulty = 0;
     public final double SCREENWIDTH = 1280;
     public final double SCREENHEIGHT = 720;
-
+    
     public UI(GamePanel gp) {
         this.gp = gp;
 
+        // fonten hentes fra rescource-mappen
         try {
             InputStream font = getClass().getResourceAsStream("res/Fonts/Pixeboy-z8XGD.ttf");
             pixeBoyFont = Font.createFont(Font.TRUETYPE_FONT, font);
@@ -37,17 +38,20 @@ public class UI {
         }
     }
 
+    // tegn pause skærmen hvis der er pause
     public void drawPause(Graphics g) {
         if (gp.getGameState() == gp.pauseState) {
             drawPauseScreen(g);
         }
     }
 
+    // tegn scoren
     public void drawScore(Graphics g) {
         g.drawImage(gp.entity.Æble, tile, tile, null);
         drawText(g, Color.WHITE, 70, "x " + gp.entity.applesEaten, 3 * tile, 2 * tile + 20);
     }
 
+    // tegn game over skærmen
     public void drawGameOver(Graphics g) {
         // game over
         drawText(g, Color.WHITE, 75, "Game Over", tile * 4);
@@ -77,6 +81,7 @@ public class UI {
         }
     }
 
+    // tegn pause skærmen
     public void drawPauseScreen(Graphics g) {
         // pause
         drawText(g, Color.WHITE, 75, "PAUSED", 6 * tile);
@@ -103,6 +108,7 @@ public class UI {
         }
     }
 
+    // tegn menuskærmen
     public void drawTitleScreen(Graphics g) {
         // spillets titel
         drawText(g, Color.decode("#6CC82A"), 110, "Snake", 3 * tile);
@@ -129,6 +135,7 @@ public class UI {
         }
     }
 
+    // tegn indstilling skærmen
     public void drawSettingScreen(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
 
@@ -224,6 +231,7 @@ public class UI {
         }
     }
 
+    // tegner banen
     public void drawLevel(Graphics g) {
         g.setColor(Color.WHITE);
 
@@ -260,6 +268,7 @@ public class UI {
         g.drawRect(gp.gameWindowXStart, gp.gameWindowYStart, gp.GAMEWIDTH, gp.GAMEHEIGHT);
     }
 
+    // henter sprites til banen
     public void getImage() {
         try {
             grass = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/grass.png"));
@@ -268,6 +277,7 @@ public class UI {
         }
     }
 
+    // tegn tekst centreret på skærmen, men man kan ændre på y-koordinatet
     public void drawText(Graphics g, Color c, int fontSize, String text, int y) {
         g.setColor(c);
         g.setFont(pixeBoyFont);
@@ -276,6 +286,7 @@ public class UI {
         g.drawString(text, ((int) SCREENWIDTH - metrics.stringWidth(text)) / 2, y);
     }
 
+    // tegn tekst, men vælg x-koordinat og y-koordinat
     public void drawText(Graphics g, Color c, int fontSize, String text, int x, int y) {
         g.setColor(c);
         g.setFont(pixeBoyFont);
