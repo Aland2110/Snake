@@ -5,7 +5,7 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable {
-    // Screen size & resolution
+    // skærmstørrelse og opløsning
     public int TILESIZE = 100;
     public int GAMEWIDTH;
     public int GAMEHEIGHT;
@@ -14,13 +14,13 @@ public class GamePanel extends JPanel implements Runnable {
     public int gameWindowXStart;
     public int gameWindowYStart;
 
-    // Game running variables
+    // spilkørende variabler
     public int tempFPS = 5;
     private int FPS = 60;
     private double drawInterval;
     private double nextDrawTime;
 
-    // Game States
+    // game States
     private int gameState;
     public final int titleState = 0;
     public final int playState = 1;
@@ -28,20 +28,17 @@ public class GamePanel extends JPanel implements Runnable {
     public final int gameOverState = 3;
     public final int settingState = 4;
 
-    // Musikken
-    Sound sound = new Sound();
-
-    // Objects needed
+    // nødvendige objekter
     Random random;
     KeyHandler keyH = new KeyHandler(this);
     Thread gameThread;
     Entity entity = new Entity(this, keyH);
     UI UI = new UI(this);
+    Sound sound = new Sound();
 
     public GamePanel() {
         this.random = new Random();
-        this.setPreferredSize(new Dimension((int) UI.SCREENWIDTH, (int) UI.SCREENHEIGHT)); // spilets størrelse
-                                                                                           // defineres
+        this.setPreferredSize(new Dimension((int) UI.SCREENWIDTH, (int) UI.SCREENHEIGHT)); // vinduets størrelse
         this.setDoubleBuffered(true); // performance (loader i baggrunden)
         this.addKeyListener(keyH);
         this.setFocusable(true); // gamePanel fokuserer på at modtage tastatur-input
@@ -80,6 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // spillets tråd startes
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -94,15 +92,15 @@ public class GamePanel extends JPanel implements Runnable {
         entity.createApple();
     }
 
+    // spillet kører
     @Override
     public void run() {
-        // mens spillet kører, opdateres og tegnes vinduet
         while (gameThread != null) {
             updateFPS(tempFPS);
             this.drawInterval = 1000000000 / FPS;
             this.nextDrawTime = System.nanoTime() + drawInterval;
 
-            update();
+            update(); // mens spillet kører, opdateres og tegnes vinduet
             repaint(); // kalder metoden paintComponent
 
             // Sleep method
@@ -120,9 +118,8 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // Optimer senere
     public void update() {
-        // Spillet bliver kørt
+        // Spillet bliver spillet
         if (gameState == playState) {
             entity.update();
             checkCollision();
@@ -131,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // spillets FPS ændres afhængigt af om man er i spil eller ej
     public void updateFPS(int n) {
         if (gameState != playState) {
             FPS = 60;
@@ -139,31 +137,36 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    // paintComponent er en indbygget metode i JPanel
+    // paintComponent er en indbygget metode i JPanel, der bruges til at tegne
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
+        // alt spilrelateret tegnes
         if (gameState == playState || gameState == pauseState) {
             this.setBackground(Color.decode("#2AB9C6"));
             UI.drawLevel(g);
             UI.drawScore(g);
-            entity.draw(g); // Slangen og æblet tegnes
+            entity.draw(g);
             UI.drawPause(g);
         }
+        // menuskærmen tegnes
         if (gameState == titleState) {
             this.setBackground(Color.decode("#852AC6"));
             UI.drawTitleScreen(g);
         }
+        // gameoverskærmen tegnes
         if (gameState == gameOverState) {
             this.setBackground(Color.decode("#852AC6"));
             stopMusic(0);
             UI.drawGameOver(g);
         }
+        // indstillingskærmen tegnes
         if (gameState == settingState) {
             UI.drawSettingScreen(g);
         }
     }
 
+    // tjekker om spilleren kolliderer med noget
     public void checkCollision() {
         int[] x = entity.getXarr();
         int[] y = entity.getYarr();
@@ -177,7 +180,7 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
-        // Tjekker om slangens hovedet er inden for banen.
+        // der slangen kan gp "igennem" væggene på easy mode ellers dør den
         if (UI.difficulty == 0) {
             if (x[0] < gameWindowXStart) {
                 x[0] = gameWindowXStart + GAMEWIDTH - TILESIZE;
@@ -201,14 +204,17 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // metode til at returnere game state
     public int getGameState() {
         return gameState;
     }
 
+    // metode til at ændre game state
     public void setGameState(int n) {
         gameState = n;
     }
 
+    // ændr på banens størrelse i spillet
     public void setGameSize(boolean b, int settingCommandNum) {
         if (settingCommandNum == 0) {
             if (b) {
@@ -225,6 +231,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // ændr på sværhedsgraden af spillet i indstillinger
     public void changeDifficulty() {
         tempFPS = (n + m) / 6;
         if (UI.difficulty == 0) {
@@ -236,6 +243,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    // adspil musik i loop fra array af musik
     public void playMusic(int i) {
         int v = UI.volume - 80;
         if (v > 6) {
@@ -246,10 +254,12 @@ public class GamePanel extends JPanel implements Runnable {
         sound.loop(i);
     }
 
+    // stop en specifik musik
     public void stopMusic(int i) {
         sound.stop(i);
     }
 
+    // afspil lydeffekt
     public void playSE(int i) {
         int v = UI.volume - 80;
         if (v > 6) {
@@ -259,6 +269,7 @@ public class GamePanel extends JPanel implements Runnable {
         sound.play(i);
     }
 
+    // ændr på lyd i indstillinger
     public void changeVolume(boolean b) {
         if (b) {
             UI.volume += 2;
