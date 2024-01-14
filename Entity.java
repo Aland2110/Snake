@@ -5,18 +5,18 @@ import javax.imageio.ImageIO;
 import java.util.Random;
 
 public class Entity {
-    private int[] x;
-    private int[] y;
-    public int bodyParts;
-    public int applesEaten;
-    private char lastDir;
+    private int[] x; // slangens x-koordinater
+    private int[] y; // slangens y-koordinater
+    public int bodyParts; // slangens længde
+    public int applesEaten; // mængden af æbler spist af slangen
+    private char lastDir; // slangens retning
     private int spriteCounter = 0;
     private int spriteNum = 1;
     public BufferedImage Hoved1, Hoved1H, Hoved1N, Hoved1V, Hoved2, Hoved2H, Hoved2N, Hoved2V, Hoved3, Hoved3H,
             Hoved3N, Hoved3V, Hoved4, Hoved4H, Hoved4N, Hoved4V, Hale, HaleH, HaleN, HaleV, Krop, KropH, Æble,
-            Hjørnestykke, HjørnestykkeV, HjørnestykkeH, HjørnestykkeN;
-    private int appleX;
-    private int appleY;
+            Hjørnestykke, HjørnestykkeV, HjørnestykkeH, HjørnestykkeN; // sprites
+    private int appleX; // æblets x-koordinater
+    private int appleY; // æblets y-koordinater
 
     GamePanel gp;
     KeyHandler keyH;
@@ -28,11 +28,13 @@ public class Entity {
         this.random = new Random();
     }
 
+    // slangens startbetingelser initialiseres
     public void snakePos() {
         snakeInfo();
         snakeCenter();
     }
 
+    // generel info for slangen defineres
     public void snakeInfo() {
         this.x = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
         this.y = new int[(gp.GAMEWIDTH * gp.GAMEHEIGHT) / gp.TILESIZE];
@@ -41,6 +43,7 @@ public class Entity {
         keyH.setDir();
     }
 
+    // slangen bliver placeret i midten
     public void snakeCenter() {
         for (int i = 0; i < bodyParts; i++) {
             x[i] = (gp.n / 2 - i) * gp.TILESIZE + gp.gameWindowXStart;
@@ -48,14 +51,17 @@ public class Entity {
         }
     }
 
+    // metode til at returnere slangens x-koordinater
     public int[] getXarr() {
         return x;
     }
 
+    // metode til at returnere slangens y-koordinater
     public int[] getYarr() {
         return y;
     }
 
+    // indlæser sprites som billeder
     public void getImage() {
         try {
             Hoved1 = ImageIO.read(getClass().getResourceAsStream("/res/Sprites/Hoved 1.png"));
@@ -90,12 +96,15 @@ public class Entity {
         }
     }
 
+    // slangens position opdateres
     public void update() {
+        // slangen rykker sig
         for (int i = bodyParts; i > 0; i--) {
             x[i] = x[i - 1];
             y[i] = y[i - 1];
         }
 
+        // slangens retning bestemmes
         char dir = keyH.getDir();
         if (dir == 'W') {
             if (lastDir != 'S') {
@@ -127,6 +136,7 @@ public class Entity {
             }
         }
 
+        // animation for slangens hovede laves
         spriteCounter++;
         if (spriteCounter > 0) {
             spriteNum++;
@@ -136,14 +146,18 @@ public class Entity {
             spriteCounter = 0;
         }
 
+        // der tjekkes om slangen har spist et æble
         appleEat();
     }
 
+    // slangen og æblet tegnes med deres tilhørende sprites
     public void draw(Graphics g) {
         BufferedImage image = null;
 
+        // æblet tegnes
         g.drawImage(Æble, appleX, appleY, gp.TILESIZE, gp.TILESIZE, null);
 
+        // slangens hovede animeres
         switch (lastDir) {
             case 'W':
                 if (spriteNum == 1) {
@@ -202,6 +216,7 @@ public class Entity {
                 }
                 break;
         }
+        
         // tegner slangens hovede
         g.drawImage(image, x[0], y[0], gp.TILESIZE, gp.TILESIZE, null);
 
@@ -265,6 +280,7 @@ public class Entity {
         g.drawImage(tailImage, x[bodyParts - 1], y[bodyParts - 1], gp.TILESIZE, gp.TILESIZE, null);
     }
 
+    // registrerer om slangen har spist et æble
     public void appleEat() {
         if (y[0] == appleY && x[0] == appleX) {
             gp.playSE(1);
@@ -274,6 +290,7 @@ public class Entity {
         }
     }
 
+    // laver et nyt æble
     public void createApple() {
         int tempX = random.nextInt(gp.n) * gp.TILESIZE + gp.gameWindowXStart;
         int tempY = random.nextInt(gp.m) * gp.TILESIZE + gp.gameWindowYStart;
