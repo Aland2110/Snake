@@ -10,12 +10,14 @@ public class Sound {
         URL soundURL[] = new URL[3];
         FloatControl control[] = new FloatControl[3];
 
+        // alle lyde brugt i spillet hentes og defineres i et array
         public Sound() {
                 soundURL[0] = getClass().getResource("res/Music/spil_musik.wav");
                 soundURL[1] = getClass().getResource("res/Music/eatingSE.wav");
                 soundURL[2] = getClass().getResource("res/Music/death_sound.wav");
         }
 
+        // metode til at vælge en lyd-fil og vælge dens lydniveau
         public void setFile(int i, int v) {
                 try {
                         AudioInputStream ais = AudioSystem.getAudioInputStream(soundURL[i]);
@@ -27,18 +29,22 @@ public class Sound {
                 }
         }
 
+        // afspil lyd
         public void play(int i) {
                 clip[i].start();
         }
 
+        // loop lyd
         public void loop(int i) {
                 clip[i].loop(Clip.LOOP_CONTINUOUSLY);
         }
 
+        // stop lyd
         public void stop(int i) {
                 clip[i].stop();
         }
 
+        // skift lydniveau
         public void volume(float v, int i) {
                 control[i] = (FloatControl) clip[i].getControl(FloatControl.Type.MASTER_GAIN);
                 control[i].setValue(v);
