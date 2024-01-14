@@ -11,7 +11,7 @@ public class Sound {
         FloatControl control[] = new FloatControl[3];
 
         public Sound() {
-                soundURL[0] = getClass().getResource("res/Music/mario_musik.wav");
+                soundURL[0] = getClass().getResource("res/Music/spil_musik.wav");
                 soundURL[1] = getClass().getResource("res/Music/eatingSE.wav");
                 soundURL[2] = getClass().getResource("res/Music/death_sound.wav");
         }
